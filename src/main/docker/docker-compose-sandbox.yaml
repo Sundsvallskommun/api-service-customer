@@ -1,0 +1,26 @@
+version: "3"
+services:
+  ms-customer-sandbox:
+    container_name: ms-customer-sandbox
+    image: 'ms-customer:sandbox'
+    links:
+      - 'ms-customer-wiremock-sandbox:wiremock'
+    restart: always
+    build:
+      context: ../../..
+      dockerfile: src/main/docker/Dockerfile
+    ports:
+      - '9071:8080'
+    environment:
+      SPRING_PROFILES_ACTIVE: 'sandbox'
+    depends_on:
+      - ms-customer-wiremock-sandbox
+
+  ms-customer-wiremock-sandbox:
+    container_name: ms-customer-wiremock-sandbox
+    image: wiremock/wiremock
+    restart: always
+    expose:
+      - '8080'
+    volumes:
+      - $PWD/src/test/resources/wiremock:/home/wiremock

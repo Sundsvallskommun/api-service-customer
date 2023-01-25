@@ -1,0 +1,23 @@
+{
+	"name": "api-datawarehousereader-read-engagements",
+	"request": {
+		"method": "GET",
+		"urlPath": "/api-datawarehousereader/customer/engagements",
+		"queryParameters": {
+			"partyId": {
+				"equalTo": "1d2a3bb3-3a38-4d65-9910-79dd9efa06c8"
+			}
+		}
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "application/problem+json"
+		},
+		"status": 404,
+		"jsonBody": {
+			"title": "Not Found",
+			"status": 404,
+			"detail": "PartyId '1d2a3bb3-3a38-4d65-9910-79dd9efa06c8' could not be found as a private customer or an enterprise customer"
+		}
+	}
+}

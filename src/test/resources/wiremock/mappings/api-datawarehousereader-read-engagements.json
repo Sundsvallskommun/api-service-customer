@@ -1,0 +1,31 @@
+{
+	"name": "api-datawarehousereader-read-engagements",
+	"request": {
+		"method": "GET",
+		"urlPath": "/api-datawarehousereader/customer/engagements"
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"status": 200,
+		"jsonBody": {
+			"customerEngagements": [
+				{
+					"partyId": "fd79c18f-8924-4636-a7df-73c124d5832f",
+					"customerType": "Enterprise",
+					"customerNumber": "691081",
+					"organizationNumber": "556478-6647",
+					"organizationName": "Sundsvall Energi AB"
+				}
+			],
+			"_meta": {
+				"page": 1,
+				"limit": 100,
+				"count": 1,
+				"totalRecords": 1,
+				"totalPages": 1
+			}
+		}
+	}
+}
