@@ -4,8 +4,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -32,8 +30,6 @@ import se.sundsvall.dept44.common.validators.annotation.ValidUuid;
 @Tag(name = "Customer", description = "Customer operations")
 public class CustomerResource {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CustomerResource.class);
-
 	@Autowired
 	private CustomerService customerService;
 
@@ -45,8 +41,7 @@ public class CustomerResource {
 	@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
 	@ApiResponse(responseCode = "502", description = "Bad Gateway", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
 	public ResponseEntity<Customer> getCustomerByPartyId(
-		@Parameter(name = "partyId", description = "Party-ID", required = true, example = "81471222-5798-11e9-ae24-57fa13b361e1") @ValidUuid @PathVariable(name = "partyId") String partyId) {
-		LOG.debug("Received getCustomerByPartyId request: '{}'", partyId);
+		@Parameter(name = "partyId", description = "Party-ID", required = true, example = "81471222-5798-11e9-ae24-57fa13b361e1") @ValidUuid @PathVariable(name = "partyId") final String partyId) {
 
 		return ok(customerService.getCustomer(partyId));
 	}
