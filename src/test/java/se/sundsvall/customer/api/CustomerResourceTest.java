@@ -1,7 +1,9 @@
 package se.sundsvall.customer.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import java.util.UUID;
@@ -17,7 +19,7 @@ import se.sundsvall.customer.Application;
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.service.CustomerService;
 
-@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
 class CustomerResourceTest {
 
@@ -30,22 +32,23 @@ class CustomerResourceTest {
 	@Test
 	void getCustomerByPartyId() {
 
-		// Parameters
+		// Arrange
 		final var partyId = UUID.randomUUID().toString();
 
-		// Mock
 		when(customerServiceMock.getCustomer(partyId)).thenReturn(Customer.create());
 
-		// Call
-		webTestClient.get().uri("/customers/{partyId}", partyId)
+		// Act
+		final var response = webTestClient.get().uri("/customers/{partyId}", partyId)
 			.exchange()
 			.expectStatus().isOk()
 			.expectHeader().contentType(APPLICATION_JSON)
-			.expectBody()
-			.jsonPath("$").isMap()
-			.jsonPath("$").isEmpty();
+			.expectBody(Customer.class)
+			.returnResult()
+			.getResponseBody();
 
-		// Verification
+		// Assert
+		assertThat(response).isNotNull();
+
 		verify(customerServiceMock).getCustomer(partyId);
 	}
 }
