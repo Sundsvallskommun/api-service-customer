@@ -1,7 +1,8 @@
 package se.sundsvall.customer.integration.datawarehousereader.configuration;
 
-import static java.util.List.of;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+
+import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -15,14 +16,14 @@ import se.sundsvall.dept44.configuration.feign.decoder.ProblemErrorDecoder;
 @Import(FeignConfiguration.class)
 public class DataWarehouseReaderConfiguration {
 
-	public static final String CLIENT_REGISTRATION_ID = "datawarehousereader";
+	public static final String CLIENT_ID = "datawarehousereader";
 
 	@Bean
-	FeignBuilderCustomizer feignBuilderCustomizer(ClientRegistrationRepository clientRepository, DataWarehouseReaderProperties properties) {
+	FeignBuilderCustomizer feignBuilderCustomizer(final ClientRegistrationRepository clientRepository, final DataWarehouseReaderProperties properties) {
 		return FeignMultiCustomizer.create()
-			.withErrorDecoder(new ProblemErrorDecoder(CLIENT_REGISTRATION_ID, of(NOT_FOUND.value())))
+			.withErrorDecoder(new ProblemErrorDecoder(CLIENT_ID, List.of(NOT_FOUND.value())))
 			.withRequestTimeoutsInSeconds(properties.connectTimeout(), properties.readTimeout())
-			.withRetryableOAuth2InterceptorForClientRegistration(clientRepository.findByRegistrationId(CLIENT_REGISTRATION_ID))
+			.withRetryableOAuth2InterceptorForClientRegistration(clientRepository.findByRegistrationId(CLIENT_ID))
 			.composeCustomizersToOne();
 	}
 }
