@@ -11,8 +11,11 @@ import java.util.Optional;
 
 import org.zalando.problem.Problem;
 
+import generated.se.sundsvall.datawarehousereader.CustomerDetails;
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
+
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerRelation;
 import se.sundsvall.customer.api.model.CustomerType;
@@ -20,7 +23,9 @@ import se.sundsvall.customer.api.model.CustomerType;
 public class CustomerMapper {
 
 	private static final String ERROR_NO_CUSTOMER_FOUND = "No customer matched search criteria!";
+
 	private static final String ERROR_NO_CUSTOMER_TYPE_FOUND = "No valid customerType was found!";
+
 	private static final String ERROR_DATAWAREHOUSEREADER_CUSTOMERTYPE_WAS_NULL = "DataWarehouseReader enum customerType was null!";
 
 	private CustomerMapper() {}
