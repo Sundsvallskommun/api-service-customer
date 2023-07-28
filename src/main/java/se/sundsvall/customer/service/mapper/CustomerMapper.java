@@ -20,7 +20,9 @@ import se.sundsvall.customer.api.model.CustomerType;
 public class CustomerMapper {
 
 	private static final String ERROR_NO_CUSTOMER_FOUND = "No customer matched search criteria!";
+
 	private static final String ERROR_NO_CUSTOMER_TYPE_FOUND = "No valid customerType was found!";
+
 	private static final String ERROR_DATAWAREHOUSEREADER_CUSTOMERTYPE_WAS_NULL = "DataWarehouseReader enum customerType was null!";
 
 	private CustomerMapper() {}
