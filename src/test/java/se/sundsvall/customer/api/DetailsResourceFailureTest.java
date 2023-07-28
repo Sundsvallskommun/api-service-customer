@@ -20,10 +20,9 @@ import org.zalando.problem.violations.Violation;
 import se.sundsvall.customer.Application;
 import se.sundsvall.customer.service.CustomerService;
 
-
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
-public class DetailsResourceFailureTest {
+class DetailsResourceFailureTest {
 
 	@MockBean
 	private CustomerService customerServiceMock;
@@ -76,10 +75,10 @@ public class DetailsResourceFailureTest {
 		// Assert
 		assertThat(response.getTitle()).isEqualTo("Bad Request");
 		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
-		assertThat(response.getDetail()).contains("Failed to convert value of type 'java.lang.String' to required type 'java.time.OffsetDateTime'; Failed to convert from type [java.lang.String] to type [@io.swagger.v3.oas.annotations.Parameter @org.springframework.web.bind.annotation.RequestParam java.time.OffsetDateTime] for value [not-valid]");
+		assertThat(response.getDetail()).contains(
+			"Failed to convert value of type 'java.lang.String' to required type 'java.time.OffsetDateTime'; Failed to convert from type [java.lang.String] to type [@io.swagger.v3.oas.annotations.Parameter @org.springframework.web.bind.annotation.RequestParam java.time.OffsetDateTime] for value [not-valid]");
 		// Verifications
 		verifyNoInteractions(customerServiceMock);
 	}
-
 
 }

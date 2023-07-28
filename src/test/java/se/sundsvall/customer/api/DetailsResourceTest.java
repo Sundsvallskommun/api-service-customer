@@ -17,16 +17,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import se.sundsvall.customer.Application;
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.service.CustomerService;
 
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
-
-
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
-public class DetailsResourceTest {
+class DetailsResourceTest {
 
 	@MockBean
 	private CustomerService customerServiceMock;
@@ -58,4 +56,3 @@ public class DetailsResourceTest {
 		verify(customerServiceMock).getCustomerDetails(Collections.singletonList(partyId), fromDateTime);
 	}
 }
-
