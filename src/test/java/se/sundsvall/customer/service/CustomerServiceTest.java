@@ -2,7 +2,6 @@ package se.sundsvall.customer.service;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,7 +21,6 @@ import generated.se.sundsvall.datawarehousereader.CustomerDetails;
 import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
-
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
 
 @ExtendWith(MockitoExtension.class)
@@ -73,7 +71,6 @@ class CustomerServiceTest {
 		assertThat(exception).isNotNull().hasMessage("Not Found: No customer matched search criteria!");
 		verify(dataWarehouseReaderClientMock).getCustomerEngagement(partyId);
 	}
-
 
 	@Test
 	void getCustomerDetails() {

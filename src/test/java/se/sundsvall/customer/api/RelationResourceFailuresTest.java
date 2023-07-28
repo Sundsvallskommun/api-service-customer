@@ -21,8 +21,7 @@ import se.sundsvall.customer.service.CustomerService;
 
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
-public class RelationResourceFailuresTest {
-
+class RelationResourceFailuresTest {
 
 	@MockBean
 	private CustomerService customerServiceMock;

@@ -11,11 +11,8 @@ import java.util.Optional;
 
 import org.zalando.problem.Problem;
 
-import generated.se.sundsvall.datawarehousereader.CustomerDetails;
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
-
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerRelation;
 import se.sundsvall.customer.api.model.CustomerType;

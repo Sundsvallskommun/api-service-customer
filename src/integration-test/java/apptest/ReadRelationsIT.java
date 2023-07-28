@@ -10,9 +10,8 @@ import se.sundsvall.customer.Application;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 
-
 @WireMockAppTestSuite(files = "classpath:/ReadRelations/", classes = Application.class)
-public class ReadRelationsIT extends AbstractAppTest {
+class ReadRelationsIT extends AbstractAppTest {
 
 	@Test
 	void test1_readRelation() throws Exception {
