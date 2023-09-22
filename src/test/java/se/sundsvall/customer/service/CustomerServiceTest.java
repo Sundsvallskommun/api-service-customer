@@ -1,30 +1,32 @@
 package se.sundsvall.customer.service;
 
-import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.UUID;
-
+import generated.se.sundsvall.datawarehousereader.CustomerDetails;
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
+import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
+import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.zalando.problem.ThrowableProblem;
-
-import generated.se.sundsvall.datawarehousereader.CustomerDetails;
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
-import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
-import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
+
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.UUID;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
+
+	private static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
 	@Mock
 	private DataWarehouseReaderClient dataWarehouseReaderClientMock;
@@ -78,9 +80,10 @@ class CustomerServiceTest {
 		// Parameters
 		final var partyId = List.of(UUID.randomUUID().toString());
 		final var fromDateTime = OffsetDateTime.now();
+		final var fromDateTimeAsString = fromDateTime.format(ofPattern(DATE_TIME_FORMAT));
 
 		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, fromDateTime)).thenReturn(new CustomerDetailsResponse()
+		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, fromDateTimeAsString)).thenReturn(new CustomerDetailsResponse()
 			.customerDetails(List.of(new CustomerDetails()
 				.partyId(partyId.get(0))
 				.customerNumber("customerNumber")
@@ -98,7 +101,7 @@ class CustomerServiceTest {
 
 		// Verification
 		assertThat(result).isNotNull();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, fromDateTime);
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, fromDateTimeAsString);
 	}
 
 	@Test
@@ -107,9 +110,10 @@ class CustomerServiceTest {
 		// Parameters
 		final var partyId = List.of(UUID.randomUUID().toString());
 		final var fromDateTime = OffsetDateTime.now();
+		final var fromDateTimeAsString = fromDateTime.format(ofPattern(DATE_TIME_FORMAT));
 
 		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, fromDateTime)).thenReturn(new CustomerDetailsResponse()
+		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, fromDateTimeAsString)).thenReturn(new CustomerDetailsResponse()
 			.customerDetails(emptyList()));
 
 		// Call
@@ -117,6 +121,6 @@ class CustomerServiceTest {
 
 		// Verification
 		assertThat(result.getCustomerDetails()).isEmpty();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, fromDateTime);
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, fromDateTimeAsString);
 	}
 }
