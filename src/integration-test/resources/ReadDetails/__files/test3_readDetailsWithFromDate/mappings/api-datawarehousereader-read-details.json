@@ -1,0 +1,55 @@
+{
+	"name": "api-datawarehousereader-read-details",
+	"request": {
+		"method": "GET",
+		"urlPath": "/api-datawarehousereader/customer/details",
+		"queryParameters": {
+			"partyId": {
+				"equalTo": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105"
+			},
+			"fromDateTime": {
+				"equalTo": "2023-01-01T01:30:00.000-05:00"
+			}
+		}
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"status": 200,
+		"jsonBody": {
+			"customerDetails": [
+				{
+					"partyId": "string",
+					"customerNumber": "691071",
+					"customerName": "Test Testorsson",
+					"street": "Testvägen 12",
+					"postalCode": "12345",
+					"city": "Sundsvall",
+					"careOf": "CareOf",
+					"phoneNumbers": [
+						"076-1234567"
+					],
+					"emails": [
+						"test@sundsvall.se"
+					],
+					"customerCategoryID": 1,
+					"customerCategoryDescription": "Privat",
+					"customerChangedFlg": true,
+					"installedChangedFlg": true
+				}
+			],
+			"_meta": {
+				"page": 0,
+				"limit": 0,
+				"count": 1,
+				"totalRecords": 1,
+				"totalPages": 1,
+				"sortBy": [
+					"string"
+				],
+				"sortDirection": "ASC"
+			}
+		}
+	}
+}

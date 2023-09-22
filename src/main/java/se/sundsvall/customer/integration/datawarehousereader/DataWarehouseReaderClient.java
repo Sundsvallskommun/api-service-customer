@@ -4,7 +4,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
 import static se.sundsvall.customer.integration.datawarehousereader.configuration.DataWarehouseReaderConfiguration.CLIENT_ID;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -23,5 +22,5 @@ public interface DataWarehouseReaderClient {
 	CustomerEngagementResponse getCustomerEngagement(@RequestParam(value = "partyId") String partyId);
 
 	@GetMapping(path = "customer/details", produces = {APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
-	CustomerDetailsResponse getCustomerDetails(@RequestParam(value = "partyId") List<String> partyId, @RequestParam(value = "fromDateTime") OffsetDateTime fromDateTime);
+	CustomerDetailsResponse getCustomerDetails(@RequestParam(value = "partyId") List<String> partyId, @RequestParam(value = "fromDateTime") String fromDateTime);
 }
