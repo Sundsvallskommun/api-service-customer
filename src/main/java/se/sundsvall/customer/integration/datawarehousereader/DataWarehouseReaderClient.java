@@ -22,5 +22,12 @@ public interface DataWarehouseReaderClient {
 	CustomerEngagementResponse getCustomerEngagement(@RequestParam(value = "partyId") String partyId);
 
 	@GetMapping(path = "customer/details", produces = {APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
-	CustomerDetailsResponse getCustomerDetails(@RequestParam(value = "partyId") List<String> partyId, @RequestParam(value = "fromDateTime") String fromDateTime);
+	CustomerDetailsResponse getCustomerDetailsByPartyId(
+		@RequestParam(value = "partyId") List<String> partyId,
+		@RequestParam(value = "fromDateTime") String fromDateTime);
+
+	@GetMapping(path = "customer/details", produces = {APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE})
+	CustomerDetailsResponse getCustomerDetailsByCustomerEngagementOrgId(
+		@RequestParam(value = "customerEngagementOrgId") String customerEngagementOrgId,
+		@RequestParam(value = "fromDateTime") String fromDateTime);
 }
