@@ -1,0 +1,33 @@
+{
+  "name": "api-datawarehousereader-read-details",
+  "request": {
+    "method": "GET",
+    "urlPath": "/api-datawarehousereader/customer/details",
+    "queryParameters": {
+      "customerEngagementOrgId": {
+        "equalTo": "1234567890"
+      }
+    }
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "jsonBody": {
+      "customerDetails": [
+      ],
+      "_meta": {
+        "page": 1,
+        "limit": 100,
+        "count": 0,
+        "totalRecords": 0,
+        "totalPages": 0,
+        "sortBy": [
+          "propertyName"
+        ],
+        "sortDirection": "ASC"
+      }
+    }
+  }
+}
