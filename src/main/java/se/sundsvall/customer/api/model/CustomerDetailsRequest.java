@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Customer details request")
 public class CustomerDetailsRequest {
 
-    @ArraySchema(schema = @Schema(description = "Party-ID"))
+    @ArraySchema(schema = @Schema(description = "List of Party-IDs"))
     private List<@ValidUuid String> partyId;
 
     @ValidOrganizationNumber(nullable = true)

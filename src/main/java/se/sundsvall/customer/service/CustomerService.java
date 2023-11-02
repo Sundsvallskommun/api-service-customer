@@ -1,20 +1,17 @@
 package se.sundsvall.customer.service;
 
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static java.util.Optional.ofNullable;
-import static org.springframework.util.CollectionUtils.isEmpty;
-import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
-
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import org.springframework.stereotype.Service;
-
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
 
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Optional.ofNullable;
+import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
 
 @Service
 public class CustomerService {
@@ -32,13 +29,10 @@ public class CustomerService {
 	}
 
 	public CustomerDetailsResponse getCustomerDetails(final CustomerDetailsRequest request) {
-		if (!isEmpty(request.getPartyId())) {
-			return dataWarehouseReaderClient.getCustomerDetailsByPartyId(
-				request.getPartyId(), fromOffsetDateTimeToString(request.getFromDateTime()));
-		} else {
-			return dataWarehouseReaderClient.getCustomerDetailsByCustomerEngagementOrgId(
-				request.getCustomerEngagementOrgId(), fromOffsetDateTimeToString(request.getFromDateTime()));
-		}
+		return dataWarehouseReaderClient.getCustomerDetails(
+			request.getPartyId(),
+			request.getCustomerEngagementOrgId(),
+			fromOffsetDateTimeToString(request.getFromDateTime()));
 	}
 
 	private String fromOffsetDateTimeToString(OffsetDateTime fromDateTime) {
