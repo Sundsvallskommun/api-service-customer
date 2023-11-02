@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
+import se.sundsvall.customer.api.validation.ValidCustomerDetailsRequest;
 import se.sundsvall.customer.service.CustomerService;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
-import static org.springframework.util.CollectionUtils.isEmpty;
 
 @RestController
 @Validated
@@ -44,11 +42,7 @@ public class DetailsResource {
     @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
     @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
     @ApiResponse(responseCode = "502", description = "Bad Gateway", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
-    public ResponseEntity<CustomerDetailsResponse> getCustomerDetails(@Valid @RequestBody final CustomerDetailsRequest request) {
-        // Make sure that partyId or customerEngagementOrgId is provided and non-empty
-        if (isEmpty(request.getPartyId()) && isBlank(request.getCustomerEngagementOrgId())) {
-            throw Problem.valueOf(Status.BAD_REQUEST, "'partyId' or 'customerEngagementOrgId' must be provided");
-        }
+    public ResponseEntity<CustomerDetailsResponse> getCustomerDetails(@Valid  @ValidCustomerDetailsRequest @RequestBody final CustomerDetailsRequest request) {
 
         return ok(customerService.getCustomerDetails(request));
     }

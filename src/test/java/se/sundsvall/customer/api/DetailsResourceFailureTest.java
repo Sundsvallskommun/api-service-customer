@@ -95,7 +95,14 @@ class DetailsResourceFailureTest {
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
 					.containsExactly(tuple("partyId[0]", "not a valid UUID"));
-			} else {
+			} else if (isEmpty(request.getPartyId()) && request.getCustomerEngagementOrgId() == null) {
+				// We have constraint violations when both partyId and customerEngagementOrgId are missing
+				assertThat(constraintViolationProblem.getViolations())
+					.extracting(Violation::getField, Violation::getMessage)
+					.containsExactlyInAnyOrder(
+						tuple("getCustomerDetails.request", "'partyId' or 'customerEngagementOrgId' must be provided"));
+			} else
+			{
 				// We have constraint violations on customerEngagementOrgId
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
@@ -112,8 +119,10 @@ class DetailsResourceFailureTest {
 	private static Stream<CustomerDetailsRequest> invalidRequestProvider() {
 
 		return Stream.of(
-			new CustomerDetailsRequestForTest("neither partyId or customerEngagementOrgId is set"),
+			new CustomerDetailsRequestForTest("neither partyId or customerEngagementOrgId is set")
+				.asConstraintViolation(),
 			new CustomerDetailsRequestForTest("partyId is set but empty")
+				.asConstraintViolation()
 				.withPartyId(List.of()),
 			new CustomerDetailsRequestForTest("customerEngagementOrgId is set but empty")
 				.asConstraintViolation()
