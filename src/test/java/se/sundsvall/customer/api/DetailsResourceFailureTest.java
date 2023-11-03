@@ -1,21 +1,5 @@
 package se.sundsvall.customer.api;
 
-import static java.lang.String.format;
-import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.groups.Tuple.tuple;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
-import static org.springframework.util.CollectionUtils.isEmpty;
-import static org.springframework.web.reactive.function.BodyInserters.fromValue;
-import static org.zalando.problem.Status.BAD_REQUEST;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -27,10 +11,25 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.zalando.problem.Problem;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 import org.zalando.problem.violations.Violation;
-
 import se.sundsvall.customer.Application;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.service.CustomerService;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Stream;
+
+import static java.lang.String.format;
+import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
+import static org.springframework.util.CollectionUtils.isEmpty;
+import static org.springframework.web.reactive.function.BodyInserters.fromValue;
+import static org.zalando.problem.Status.BAD_REQUEST;
 
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
@@ -96,7 +95,14 @@ class DetailsResourceFailureTest {
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
 					.containsExactly(tuple("partyId[0]", "not a valid UUID"));
-			} else {
+			} else if (isEmpty(request.getPartyId()) && request.getCustomerEngagementOrgId() == null) {
+				// We have constraint violations when both partyId and customerEngagementOrgId are missing
+				assertThat(constraintViolationProblem.getViolations())
+					.extracting(Violation::getField, Violation::getMessage)
+					.containsExactlyInAnyOrder(
+						tuple("getCustomerDetails.request", "'partyId' or 'customerEngagementOrgId' must be provided"));
+			} else
+			{
 				// We have constraint violations on customerEngagementOrgId
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
@@ -104,26 +110,23 @@ class DetailsResourceFailureTest {
 			}
 		} else {
 			assertThat(response.getTitle()).isEqualTo("Bad Request");
-			assertThat(response.getDetail()).isEqualTo("Exactly one of 'partyId' or 'customerEngagementOrgId' must be provided");
+			assertThat(response.getDetail()).isEqualTo("'partyId' or 'customerEngagementOrgId' must be provided");
 		}
 
 		verifyNoInteractions(customerServiceMock);
 	}
 
 	private static Stream<CustomerDetailsRequest> invalidRequestProvider() {
-		final var partyId = UUID.randomUUID().toString();
-		final var orgId = "1234567890";
 
 		return Stream.of(
-			new CustomerDetailsRequestForTest("neither partyId or customerEngagementOrgId is set"),
+			new CustomerDetailsRequestForTest("neither partyId or customerEngagementOrgId is set")
+				.asConstraintViolation(),
 			new CustomerDetailsRequestForTest("partyId is set but empty")
+				.asConstraintViolation()
 				.withPartyId(List.of()),
 			new CustomerDetailsRequestForTest("customerEngagementOrgId is set but empty")
 				.asConstraintViolation()
 				.withCustomerEngagementOrgId(""),
-			new CustomerDetailsRequestForTest("both partyId and customerEngagementOrgId are set and non-empty")
-				.withPartyId(List.of(partyId))
-				.withCustomerEngagementOrgId(orgId),
 			new CustomerDetailsRequestForTest("partyId is set but invalid")
 				.asConstraintViolation()
 				.withPartyId(List.of("invalid-party-id")),
