@@ -1,14 +1,12 @@
 package se.sundsvall.customer.api;
 
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
-import static org.springframework.http.ResponseEntity.ok;
-import static org.springframework.util.CollectionUtils.isEmpty;
-
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,18 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
 import org.zalando.problem.violations.ConstraintViolationProblem;
-
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
+import se.sundsvall.customer.api.validation.ValidCustomerDetailsRequest;
 import se.sundsvall.customer.service.CustomerService;
 
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Validated
@@ -48,13 +42,7 @@ public class DetailsResource {
     @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
     @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
     @ApiResponse(responseCode = "502", description = "Bad Gateway", content = @Content(mediaType = APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = Problem.class)))
-    public ResponseEntity<CustomerDetailsResponse> getCustomerDetails(@Valid @RequestBody final CustomerDetailsRequest request) {
-        // Make sure that exactly one of partyId or customerEngagementOrgId is provided and non-empty, but not both
-        var partyIdsEmpty = isEmpty(request.getPartyId());
-        var customerEngagementOrgIdIsEmpty = isBlank(request.getCustomerEngagementOrgId());
-        if ((partyIdsEmpty && customerEngagementOrgIdIsEmpty) || (!partyIdsEmpty && !customerEngagementOrgIdIsEmpty)) {
-            throw Problem.valueOf(Status.BAD_REQUEST, "Exactly one of 'partyId' or 'customerEngagementOrgId' must be provided");
-        }
+    public ResponseEntity<CustomerDetailsResponse> getCustomerDetails(@Valid  @ValidCustomerDetailsRequest @RequestBody final CustomerDetailsRequest request) {
 
         return ok(customerService.getCustomerDetails(request));
     }
