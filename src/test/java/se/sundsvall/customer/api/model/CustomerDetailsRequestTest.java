@@ -16,6 +16,8 @@ import com.google.code.beanmatchers.BeanMatchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import generated.se.sundsvall.datawarehousereader.Direction;
+
 class CustomerDetailsRequestTest {
 
 	@BeforeAll
@@ -42,15 +44,21 @@ class CustomerDetailsRequestTest {
 			.withPartyId(List.of(partyId))
 			.withCustomerEngagementOrgId(customerEngagementOrgId)
 			.withFromDateTime(fromDateTime);
+		request.setSortBy(List.of("sort1", "sort2"));
 
 		assertThat(request).isNotNull().hasNoNullFieldsOrProperties();
 		assertThat(request.getPartyId()).containsExactly(partyId);
 		assertThat(request.getCustomerEngagementOrgId()).isEqualTo(customerEngagementOrgId);
 		assertThat(request.getFromDateTime()).isEqualTo(fromDateTime);
+		assertThat(request.getPage()).isEqualTo(1);
+		assertThat(request.getLimit()).isEqualTo(100);
+		assertThat(request.getSortBy()).containsExactly("sort1", "sort2");
+		assertThat(request.getSortDirection()).hasToString(Direction.ASC.toString());
 	}
 
 	@Test
 	void hasNoDirtOnCreatedBean() {
-		assertThat(new CustomerDetailsRequest()).hasAllNullFieldsOrProperties();
+		var customerDetailsRequest = new CustomerDetailsRequest();
+		assertThat(customerDetailsRequest).hasAllNullFieldsOrPropertiesExcept("page", "limit", "sortDirection");
 	}
 }

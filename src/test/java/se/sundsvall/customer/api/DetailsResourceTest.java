@@ -37,35 +37,6 @@ class DetailsResourceTest {
 	private WebTestClient webTestClient;
 
 	@Test
-	void getDetailsByPartyIdAndFromDate() {
-		// Arrange
-		final var request = new CustomerDetailsRequest()
-			.withPartyId(List.of(UUID.randomUUID().toString()))
-			.withFromDateTime(OffsetDateTime.now());
-		final var customerDetailsResponse = new CustomerDetailsResponse()
-			.customerDetails(List.of(
-				new CustomerDetails().partyId("somePartyId")));
-
-		when(customerServiceMock.getCustomerDetails(request)).thenReturn(customerDetailsResponse);
-
-		// Act
-		final var response = webTestClient.post().uri("/details")
-			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(fromValue(request))
-			.exchange()
-			.expectStatus().isOk()
-			.expectHeader().contentType(APPLICATION_JSON)
-			.expectBody(CustomerDetailsResponse.class)
-			.returnResult()
-			.getResponseBody();
-
-		// Assert
-		assertThat(response).isNotNull();
-
-		verify(customerServiceMock).getCustomerDetails(request);
-	}
-
-	@Test
 	void getDetailsByCustomerEngagementOrgIdAndFromDate() {
 		// Arrange
 		final var request = new CustomerDetailsRequest()

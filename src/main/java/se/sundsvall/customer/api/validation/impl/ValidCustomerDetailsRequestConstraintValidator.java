@@ -12,6 +12,6 @@ public class ValidCustomerDetailsRequestConstraintValidator implements Constrain
 
 	@Override
 	public boolean isValid(final CustomerDetailsRequest request, final ConstraintValidatorContext context) {
-		return !(isEmpty(request.getPartyId()) && isBlank(request.getCustomerEngagementOrgId()));
+		return !(isBlank(request.getCustomerEngagementOrgId()));
 	}
 }

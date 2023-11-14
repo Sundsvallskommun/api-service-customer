@@ -4,10 +4,11 @@ info:
   contact: {}
   license:
     name: MIT License
-    url: 'https://opensource.org/licenses/MIT'
-  version: '3.3'
+    url: https://opensource.org/licenses/MIT
+  version: "3.4"
 servers:
-  - url: /
+  - url: http://localhost:8888
+    description: Generated server url
 tags:
   - name: Measurement
     description: Measurement operations
@@ -20,7 +21,7 @@ tags:
   - name: Invoice
     description: Invoice operations
 paths:
-  '/measurements/{category}/{aggregateOn}':
+  /measurements/{category}/{aggregateOn}:
     get:
       tags:
         - Measurement
@@ -31,26 +32,28 @@ paths:
         - name: category
           in: path
           required: true
-          style: simple
-          explode: false
           schema:
             $ref: '#/components/schemas/Category'
         - name: aggregateOn
           in: path
           required: true
-          style: simple
-          explode: false
           schema:
             $ref: '#/components/schemas/Aggregation'
         - name: searchParams
           in: query
           required: true
-          style: form
-          explode: true
           schema:
             $ref: '#/components/schemas/MeasurementParameters'
       responses:
-        '200':
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - $ref: '#/components/schemas/ConstraintViolationProblem'
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -59,15 +62,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/MeasurementResponse'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Problem'
-                  - $ref: '#/components/schemas/ConstraintViolationProblem'
-        '500':
+        "500":
           description: Internal Server error
           content:
             application/problem+json:
@@ -84,21 +79,10 @@ paths:
         - name: searchParams
           in: query
           required: true
-          style: form
-          explode: true
           schema:
             $ref: '#/components/schemas/InvoiceParameters'
       responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvoiceResponse'
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/InvoiceResponse'
-        '400':
+        "400":
           description: Bad request
           content:
             application/problem+json:
@@ -106,18 +90,26 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/Problem'
                   - $ref: '#/components/schemas/ConstraintViolationProblem'
-        '500':
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceResponse'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/InvoiceResponse'
+        "500":
           description: Internal Server error
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  '/invoices/{organizationNumber}/{invoiceNumber}/details':
+  /invoices/{organizationNumber}/{invoiceNumber}/details:
     get:
       tags:
         - Invoice
-      summary: >-
-        Get invoice details for invoice matching issuer of provided organization
+      summary: Get invoice details for invoice matching issuer of provided organization
         number and having invoice number matching provided invoice number
       operationId: getInvoiceDetails
       parameters:
@@ -125,8 +117,6 @@ paths:
           in: path
           description: Organization number of invoice issuer
           required: true
-          style: simple
-          explode: false
           schema:
             type: string
           example: 5565027223
@@ -134,14 +124,18 @@ paths:
           in: path
           description: Invoice number
           required: true
-          style: simple
-          explode: false
           schema:
             type: integer
             format: int64
           example: 805137494
       responses:
-        '200':
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -154,19 +148,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/InvoiceDetail'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '404':
+        "404":
           description: Not found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
-        '500':
+        "500":
           description: Internal Server error
           content:
             application/problem+json:
@@ -183,12 +171,18 @@ paths:
         - name: searchParams
           in: query
           required: true
-          style: form
-          explode: true
           schema:
             $ref: '#/components/schemas/InstalledBaseParameters'
       responses:
-        '200':
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - $ref: '#/components/schemas/ConstraintViolationProblem'
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -197,15 +191,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/InstalledBaseResponse'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Problem'
-                  - $ref: '#/components/schemas/ConstraintViolationProblem'
-        '500':
+        "500":
           description: Internal Server error
           content:
             application/problem+json:
@@ -216,20 +202,25 @@ paths:
       tags:
         - Customer
       summary: Get basic customer information
-      description: >-
-        Resource returns all customer engagements matching provided search
+      description: Resource returns all customer engagements matching provided search
         parameters
       operationId: getCustomerEngagements
       parameters:
         - name: searchParams
           in: query
           required: true
-          style: form
-          explode: true
           schema:
             $ref: '#/components/schemas/CustomerEngagementParameters'
       responses:
-        '200':
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - $ref: '#/components/schemas/ConstraintViolationProblem'
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -238,15 +229,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/CustomerEngagementResponse'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Problem'
-                  - $ref: '#/components/schemas/ConstraintViolationProblem'
-        '500':
+        "500":
           description: Internal Server error
           content:
             application/problem+json:
@@ -257,20 +240,25 @@ paths:
       tags:
         - Customer
       summary: Get detailed customer information
-      description: >-
-        Resource returns all customer details matching provided search
+      description: Resource returns all customer details matching provided search
         parameters
       operationId: getCustomerDetails
       parameters:
         - name: searchParams
           in: query
           required: true
-          style: form
-          explode: true
           schema:
             $ref: '#/components/schemas/CustomerDetailsParameters'
       responses:
-        '200':
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - $ref: '#/components/schemas/ConstraintViolationProblem'
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -279,15 +267,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/CustomerDetailsResponse'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Problem'
-                  - $ref: '#/components/schemas/ConstraintViolationProblem'
-        '500':
+        "500":
           description: Internal Server error
           content:
             application/problem+json:
@@ -300,12 +280,15 @@ paths:
       summary: OpenAPI
       operationId: getApiDocs
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/yaml:
               schema:
                 type: string
+      x-auth-type: None
+      x-throttling-tier: Unlimited
+      x-wso2-mutual-ssl: Optional
   /agreements:
     get:
       tags:
@@ -317,12 +300,18 @@ paths:
         - name: searchParams
           in: query
           required: true
-          style: form
-          explode: true
           schema:
             $ref: '#/components/schemas/AgreementParameters'
       responses:
-        '200':
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - $ref: '#/components/schemas/ConstraintViolationProblem'
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -331,15 +320,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/AgreementResponse'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Problem'
-                  - $ref: '#/components/schemas/ConstraintViolationProblem'
-        '500':
+        "500":
           description: Internal Server error
           content:
             application/problem+json:
@@ -386,8 +367,7 @@ components:
         limit:
           minimum: 1
           type: integer
-          description: >-
-            Result size per page. Maximum allowed value is dynamically
+          description: Result size per page. Maximum allowed value is dynamically
             configured
           format: int32
           example: 15
@@ -406,25 +386,25 @@ components:
         facilityId:
           type: string
           description: Facility id
-          example: '735999109151401011'
+          example: "735999109151401011"
         fromDateTime:
           type: string
-          description: >-
-            Date and time for oldest measurement point to return. Format is
-            yyyy-MM-dd'T'HH:mm:ss.SSSXXX, for example
-            '2000-10-31T01:30:00.000-05:00'
+          description: "Date and time for oldest measurement point to return. Format\
+            \ is yyyy-MM-dd'T'HH:mm:ss.SSSXXX, for example '2000-10-31T01:30:00.000-05:00'"
           format: date-time
         toDateTime:
           type: string
-          description: >-
-            Date and time for youngest measurement point to return. Format is
-            yyyy-MM-dd'T'HH:mm:ss.SSSXXX, for example
-            '2000-10-31T01:30:00.000-05:00'
+          description: "Date and time for youngest measurement point to return. Format\
+            \ is yyyy-MM-dd'T'HH:mm:ss.SSSXXX, for example '2000-10-31T01:30:00.000-05:00'"
           format: date-time
       description: Measurement request parameters model
     Problem:
       type: object
       properties:
+        title:
+          type: string
+        detail:
+          type: string
         instance:
           type: string
           format: uri
@@ -435,20 +415,16 @@ components:
           type: object
           additionalProperties:
             type: object
-        title:
-          type: string
-        detail:
-          type: string
         status:
           $ref: '#/components/schemas/StatusType'
     StatusType:
       type: object
       properties:
+        reasonPhrase:
+          type: string
         statusCode:
           type: integer
           format: int32
-        reasonPhrase:
-          type: string
     ConstraintViolationProblem:
       type: object
       properties:
@@ -472,10 +448,10 @@ components:
               lineNumber:
                 type: integer
                 format: int32
-              className:
-                type: string
               nativeMethod:
                 type: boolean
+              className:
+                type: string
         type:
           type: string
           format: uri
@@ -489,6 +465,8 @@ components:
           type: string
         message:
           type: string
+        detail:
+          type: string
         instance:
           type: string
           format: uri
@@ -496,8 +474,6 @@ components:
           type: object
           additionalProperties:
             type: object
-        detail:
-          type: string
         suppressed:
           type: array
           items:
@@ -521,10 +497,10 @@ components:
                     lineNumber:
                       type: integer
                       format: int32
-                    className:
-                      type: string
                     nativeMethod:
                       type: boolean
+                    className:
+                      type: string
               message:
                 type: string
               localizedMessage:
@@ -554,11 +530,15 @@ components:
               lineNumber:
                 type: integer
                 format: int32
-              className:
-                type: string
               nativeMethod:
                 type: boolean
+              className:
+                type: string
         message:
+          type: string
+        title:
+          type: string
+        detail:
           type: string
         instance:
           type: string
@@ -570,10 +550,6 @@ components:
           type: object
           additionalProperties:
             type: object
-        title:
-          type: string
-        detail:
-          type: string
         status:
           $ref: '#/components/schemas/StatusType'
         suppressed:
@@ -599,10 +575,10 @@ components:
                     lineNumber:
                       type: integer
                       format: int32
-                    className:
-                      type: string
                     nativeMethod:
                       type: boolean
+                    className:
+                      type: string
               message:
                 type: string
               localizedMessage:
@@ -628,7 +604,7 @@ components:
           type: string
           description: Facility id
           readOnly: true
-          example: '735999109151401011'
+          example: "735999109151401011"
         category:
           $ref: '#/components/schemas/Category'
         aggregatedOn:
@@ -650,10 +626,8 @@ components:
           example: 1292.75
         timestamp:
           type: string
-          description: >-
-            Date and time for measurement point. Format is
-            yyyy-MM-dd'T'HH:mm:ss.SSSXXX, for example
-            '2000-10-31T01:30:00.000-05:00'
+          description: "Date and time for measurement point. Format is yyyy-MM-dd'T'HH:mm:ss.SSSXXX,\
+            \ for example '2000-10-31T01:30:00.000-05:00'"
           format: date-time
           readOnly: true
         metaData:
@@ -663,10 +637,9 @@ components:
             $ref: '#/components/schemas/MeasurementMetaData'
         interpolation:
           type: integer
-          description: >-
-            Interpolation information. Zero means that no interpolations has
-            been done. Value greater than zero tells how many values in the
-            serie that has been interpolated/calculated.
+          description: Interpolation information. Zero means that no interpolations
+            has been done. Value greater than zero tells how many values in the serie
+            that has been interpolated/calculated.
           format: int32
           readOnly: true
           example: 13
@@ -684,7 +657,7 @@ components:
           type: string
           description: Value for the meta data
           readOnly: true
-          example: '5733010'
+          example: "5733010"
       description: Measurement meta data model
       readOnly: true
     MeasurementResponse:
@@ -763,8 +736,7 @@ components:
         limit:
           minimum: 1
           type: integer
-          description: >-
-            Result size per page. Maximum allowed value is dynamically
+          description: Result size per page. Maximum allowed value is dynamically
             configured
           format: int32
           example: 15
@@ -781,7 +753,7 @@ components:
           items:
             type: string
             description: Customer numbers
-            example: '39195'
+            example: "39195"
         customerType:
           $ref: '#/components/schemas/CustomerType'
         facilityId:
@@ -789,7 +761,7 @@ components:
           items:
             type: string
             description: Facility ids
-            example: '735999109151401011'
+            example: "735999109151401011"
         invoiceNumber:
           type: integer
           description: Invoice number
@@ -799,10 +771,12 @@ components:
           type: string
           description: Earliest invoice date. Format is YYYY-MM-DD.
           format: date
+          example: 2022-01-01
         invoiceDateTo:
           type: string
           description: Latest invoice date. Format is YYYY-MM-DD.
           format: date
+          example: 2022-01-31
         invoiceName:
           type: string
           description: Invoice name
@@ -824,10 +798,12 @@ components:
           type: string
           description: Earliest due date. Format is YYYY-MM-DD.
           format: date
+          example: 2022-01-01
         dueDateTo:
           type: string
           description: Latest due date. Format is YYYY-MM-DD.
           format: date
+          example: 2022-01-31
         organizationGroup:
           type: string
           description: Organization group
@@ -835,7 +811,7 @@ components:
         organizationNumber:
           type: string
           description: Organization number of invoice issuer
-          example: '5565027223'
+          example: "5565027223"
         administration:
           type: string
           description: Adminstration
@@ -848,14 +824,14 @@ components:
           type: string
           description: Customer number
           readOnly: true
-          example: '39195'
+          example: "39195"
         customerType:
           $ref: '#/components/schemas/CustomerType'
         facilityId:
           type: string
           description: Facility id
           readOnly: true
-          example: '735999109151401011'
+          example: "735999109151401011"
         invoiceNumber:
           type: integer
           description: Invoice number
@@ -867,6 +843,7 @@ components:
           description: Invoice date
           format: date
           readOnly: true
+          example: 2022-01-15
         invoiceName:
           type: string
           description: invoice name
@@ -898,11 +875,12 @@ components:
           description: Due date
           format: date
           readOnly: true
+          example: 2022-01-31
         totalAmount:
           type: number
           description: Total amount
           readOnly: true
-          example: 1116
+          example: 1116.0
         amountVatIncluded:
           type: number
           description: Amount included VAT
@@ -947,7 +925,7 @@ components:
           type: string
           description: Organization number of invoice issuer
           readOnly: true
-          example: '5565027223'
+          example: "5565027223"
         administration:
           type: string
           description: Adminstration
@@ -962,7 +940,7 @@ components:
           type: string
           description: Postal code
           readOnly: true
-          example: '85230'
+          example: "85230"
         city:
           type: string
           description: City
@@ -1020,7 +998,7 @@ components:
           description: VAT rate
           format: double
           readOnly: true
-          example: 25
+          example: 25.0
         quantity:
           type: number
           description: Quantity
@@ -1041,12 +1019,12 @@ components:
           type: string
           description: Period from
           readOnly: true
-          example: '2022-01-01T00:00:00.000Z'
+          example: 2022-01-01
         periodTo:
           type: string
           description: Period to
           readOnly: true
-          example: '2022-01-31T00:00:00.000Z'
+          example: 2022-01-31
         description:
           type: string
           description: Description
@@ -1066,7 +1044,7 @@ components:
           type: string
           description: Organization number of invoice issuer
           readOnly: true
-          example: '5565027223'
+          example: "5565027223"
       description: Invoice detail model
     InstalledBaseParameters:
       type: object
@@ -1081,8 +1059,7 @@ components:
         limit:
           minimum: 1
           type: integer
-          description: >-
-            Result size per page. Maximum allowed value is dynamically
+          description: Result size per page. Maximum allowed value is dynamically
             configured
           format: int32
           example: 15
@@ -1101,7 +1078,7 @@ components:
         customerNumber:
           type: string
           description: Customer number
-          example: '104327'
+          example: "104327"
         type:
           type: string
           description: Type
@@ -1109,7 +1086,7 @@ components:
         facilityId:
           type: string
           description: Facility id
-          example: '735999109270751042'
+          example: "735999109270751042"
         careOf:
           type: string
           description: Care of address
@@ -1121,7 +1098,7 @@ components:
         postCode:
           type: string
           description: Postal code
-          example: '85230'
+          example: "85230"
         city:
           type: string
           description: City
@@ -1129,15 +1106,17 @@ components:
         propertyDesignation:
           type: string
           description: Property designation
-          example: 'Södermalm 1:27'
+          example: Södermalm 1:27
         lastModifiedDateFrom:
           type: string
           description: Earliest date when item was last modified
           format: date
+          example: 2022-12-31
         lastModifiedDateTom:
           type: string
           description: Latest date when item was last modified
           format: date
+          example: 2022-12-31
       description: Installed base request parameters model
     InstalledBaseItem:
       type: object
@@ -1151,7 +1130,7 @@ components:
           type: string
           description: Customer number
           readOnly: true
-          example: '104327'
+          example: "104327"
         type:
           type: string
           description: Type
@@ -1161,7 +1140,7 @@ components:
           type: string
           description: Facility id
           readOnly: true
-          example: '735999109270751042'
+          example: "735999109270751042"
         placementId:
           type: integer
           description: Placement id
@@ -1182,7 +1161,7 @@ components:
           type: string
           description: Postal code
           readOnly: true
-          example: '85230'
+          example: "85230"
         city:
           type: string
           description: City
@@ -1192,22 +1171,25 @@ components:
           type: string
           description: Property designation
           readOnly: true
-          example: 'Södermalm 1:27'
+          example: Södermalm 1:27
         dateFrom:
           type: string
           description: From date
           format: date
           readOnly: true
+          example: 2019-01-01
         dateTo:
           type: string
           description: To date
           format: date
           readOnly: true
+          example: 2022-12-31
         dateLastModified:
           type: string
           description: Date when object was last modified (or null if never modified)
           format: date
           readOnly: true
+          example: 2022-12-31
         metaData:
           maxItems: 1000
           type: array
@@ -1265,8 +1247,7 @@ components:
         limit:
           minimum: 1
           type: integer
-          description: >-
-            Result size per page. Maximum allowed value is dynamically
+          description: Result size per page. Maximum allowed value is dynamically
             configured
           format: int32
           example: 15
@@ -1287,11 +1268,11 @@ components:
         customerNumber:
           type: string
           description: Customer number
-          example: '10007'
+          example: "10007"
         organizationNumber:
           type: string
           description: Organization number for counterpart of engagement
-          example: '5565027223'
+          example: "5565027223"
         organizationName:
           type: string
           description: Organization name for counterpart of engagement
@@ -1311,12 +1292,12 @@ components:
           type: string
           description: Customer number
           readOnly: true
-          example: '10007'
+          example: "10007"
         organizationNumber:
           type: string
           description: Organization number for counterpart of engagement
           readOnly: true
-          example: '5565027223'
+          example: "5565027223"
         organizationName:
           type: string
           description: Organization name for counterpart of engagement
@@ -1336,6 +1317,8 @@ components:
           $ref: '#/components/schemas/PagingAndSortingMetaData'
       description: Customer engagement response model
     CustomerDetailsParameters:
+      required:
+        - customerEngagementOrgId
       type: object
       properties:
         page:
@@ -1348,8 +1331,7 @@ components:
         limit:
           minimum: 1
           type: integer
-          description: >-
-            Result size per page. Maximum allowed value is dynamically
+          description: Result size per page. Maximum allowed value is dynamically
             configured
           format: int32
           example: 15
@@ -1370,24 +1352,35 @@ components:
         customerEngagementOrgId:
           type: string
           description: Organization id for customer engagements
+          example: "5565027225"
         fromDateTime:
           type: string
-          description: >-
-            Date and time for when to search for changes from. Format is
-            yyyy-MM-dd'T'HH:mm:ss.SSSXXX, for example
-            '2000-10-31T01:30:00.000-05:00'
+          description: Date and time for when to search for changes from. Format is
+            yyyy-MM-dd'T'HH:mm:ss.SSSXXX. If omitted changes within the last year
+            will be returned.
           format: date-time
+          example: 2000-10-31T01:30:00-05:00
         toDateTime:
           type: string
-          description: >-
-            Date and time for when to search for change to. Format is
-            yyyy-MM-dd'T'HH:mm:ss.SSSXXX, for example
-            '2000-10-31T01:30:00.000-05:00'
+          description: "Date and time for when to search for change to. Format is\
+            \ yyyy-MM-dd'T'HH:mm:ss.SSSXXX,"
           format: date-time
+          example: 2000-10-31T01:30:00-05:00
       description: Customer details request parameters model
     CustomerDetails:
       type: object
       properties:
+        customerEngagementOrgId:
+          type: string
+          description: Company with which the customer has an engagement (organization
+            number)
+          readOnly: true
+          example: "5591962591"
+        customerEngagementOrgName:
+          type: string
+          description: Name of the company the customer has an engagement with
+          readOnly: true
+          example: Sundsvall Elnät
         partyId:
           type: string
           description: PartyId (e.g. a personId or an organizationId)
@@ -1397,7 +1390,7 @@ components:
           type: string
           description: Customer number
           readOnly: true
-          example: '39195'
+          example: "39195"
         customerName:
           type: string
           description: Customer name
@@ -1412,7 +1405,7 @@ components:
           type: string
           description: Postal code
           readOnly: true
-          example: '85230'
+          example: "85230"
         city:
           type: string
           description: City
@@ -1452,14 +1445,14 @@ components:
           example: Privat
         customerChangedFlg:
           type: boolean
-          description: Indicates if customer details have changed since the search date
+          description: Indicates if customer details have changed since the search
+            date
           readOnly: true
           example: false
         installedChangedFlg:
           type: boolean
-          description: >-
-            Indicates if placement and/or equipment details have changed since
-            the search date
+          description: Indicates if placement and/or equipment details have changed
+            since the search date
           readOnly: true
           example: true
       description: Customer details model
@@ -1488,8 +1481,7 @@ components:
         limit:
           minimum: 1
           type: integer
-          description: >-
-            Result size per page. Maximum allowed value is dynamically
+          description: Result size per page. Maximum allowed value is dynamically
             configured
           format: int32
           example: 15
@@ -1508,11 +1500,11 @@ components:
         customerNumber:
           type: string
           description: Customer number
-          example: '10007'
+          example: "10007"
         facilityId:
           type: string
           description: Facility Id
-          example: '1223334'
+          example: "1223334"
         category:
           type: array
           items:
@@ -1520,11 +1512,11 @@ components:
         billingId:
           type: string
           description: Billing Id
-          example: '222333'
+          example: "222333"
         agreementId:
           type: string
           description: Agreement Id
-          example: '333444'
+          example: "333444"
         description:
           type: string
           description: Description
@@ -1551,9 +1543,8 @@ components:
           format: date
         active:
           type: boolean
-          description: >-
-            Shows if agreement is active ('fromDate' <= today and 'toDate' =>
-            today). Null shows both active and inactive
+          description: Shows if agreement is active ('fromDate' <= today and 'toDate'
+            => today). Null shows both active and inactive
           nullable: true
           example: true
       description: Agreement request parameters model
@@ -1569,24 +1560,24 @@ components:
           type: string
           description: Customer number
           readOnly: true
-          example: '10007'
+          example: "10007"
         facilityId:
           type: string
           description: Facility Id
           readOnly: true
-          example: '1223334'
+          example: "1223334"
         category:
           $ref: '#/components/schemas/Category'
         billingId:
           type: string
           description: Billing Id
           readOnly: true
-          example: '222333'
+          example: "222333"
         agreementId:
           type: string
           description: Agreement Id
           readOnly: true
-          example: '333444'
+          example: "333444"
         description:
           type: string
           description: Description
@@ -1619,9 +1610,8 @@ components:
           readOnly: true
         active:
           type: boolean
-          description: >-
-            Shows if agreement is active ('fromDate' <= today and 'toDate' =>
-            today)
+          description: Shows if agreement is active ('fromDate' <= today and 'toDate'
+            => today)
           readOnly: true
           example: true
       description: Agreement model
@@ -1637,3 +1627,4 @@ components:
         _meta:
           $ref: '#/components/schemas/PagingAndSortingMetaData'
       description: Agreement response model
+  securitySchemes: {}
