@@ -45,13 +45,15 @@ class CustomerDetailsRequestTest {
 			.withCustomerEngagementOrgId(customerEngagementOrgId)
 			.withFromDateTime(fromDateTime);
 		request.setSortBy(List.of("sort1", "sort2"));
+		request.setPage(1);
+		request.setLimit(10);
 
 		assertThat(request).isNotNull().hasNoNullFieldsOrProperties();
 		assertThat(request.getPartyId()).containsExactly(partyId);
 		assertThat(request.getCustomerEngagementOrgId()).isEqualTo(customerEngagementOrgId);
 		assertThat(request.getFromDateTime()).isEqualTo(fromDateTime);
 		assertThat(request.getPage()).isEqualTo(1);
-		assertThat(request.getLimit()).isEqualTo(100);
+		assertThat(request.getLimit()).isEqualTo(10);
 		assertThat(request.getSortBy()).containsExactly("sort1", "sort2");
 		assertThat(request.getSortDirection()).hasToString(Direction.ASC.toString());
 	}
@@ -60,5 +62,12 @@ class CustomerDetailsRequestTest {
 	void hasNoDirtOnCreatedBean() {
 		var customerDetailsRequest = new CustomerDetailsRequest();
 		assertThat(customerDetailsRequest).hasAllNullFieldsOrPropertiesExcept("page", "limit", "sortDirection");
+		assertThat(customerDetailsRequest.getSortDirection()).hasToString(Direction.ASC.toString());
+		assertThat(customerDetailsRequest.getPage()).isEqualTo(1);
+		assertThat(customerDetailsRequest.getLimit()).isEqualTo(100);
+		assertThat(customerDetailsRequest.getSortBy()).isNull();
+		assertThat(customerDetailsRequest.getFromDateTime()).isNull();
+		assertThat(customerDetailsRequest.getCustomerEngagementOrgId()).isNull();
+		assertThat(customerDetailsRequest.getPartyId()).isNull();
 	}
 }
