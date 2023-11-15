@@ -1,6 +1,5 @@
 package apptest;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -16,43 +15,32 @@ import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 class ReadDetailsIT extends AbstractAppTest {
 
 	@Test
-	void test1_readDetailsByPartyId() throws Exception {
-		final var result = setupCall()
-			.withServicePath("/details")
-			.withHttpMethod(POST)
-			.withRequest("request.json")
-			.withExpectedResponse("response.json")
-			.withExpectedResponseStatus(OK)
-			.sendRequestAndVerifyResponse()
-			.andReturnBody(CustomerDetailsResponse.class);
-
-		assertThat(result.getCustomerDetails()).isNotEmpty();
-		assertThat(result.getCustomerDetails()).hasSize(1);
-		assertThat(result.getMeta().getCount()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalRecords()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalPages()).isEqualTo(1);
+	void test1_readDetailsByPartyIdAndEngagementOrgId() throws Exception {
+		setupCall()
+				.withServicePath("/details")
+				.withHttpMethod(POST)
+				.withRequest("request.json")
+				.withExpectedResponse("response.json")
+				.withExpectedResponseStatus(OK)
+				.sendRequestAndVerifyResponse()
+				.andReturnBody(CustomerDetailsResponse.class);
 	}
 
 	@Test
-	void test2_readDetailsByPartyIdNotFound() throws Exception {
-		final var result = setupCall()
-			.withServicePath("/details")
-			.withHttpMethod(POST)
-			.withRequest("request.json")
-			.withExpectedResponse("response.json")
-			.withExpectedResponseStatus(OK)
-			.sendRequestAndVerifyResponse()
-			.andReturnBody(CustomerDetailsResponse.class);
-
-		assertThat(result.getCustomerDetails()).isEmpty();
-		assertThat(result.getMeta().getCount()).isZero();
-		assertThat(result.getMeta().getTotalRecords()).isZero();
-		assertThat(result.getMeta().getTotalPages()).isZero();
+	void test2_readDetailsByCustomerEngagementOrgIdWithFromDate() throws Exception {
+		setupCall()
+				.withServicePath("/details")
+				.withHttpMethod(POST)
+				.withRequest("request.json")
+				.withExpectedResponse("response.json")
+				.withExpectedResponseStatus(OK)
+				.sendRequestAndVerifyResponse()
+				.andReturnBody(CustomerDetailsResponse.class);
 	}
 
 	@Test
-	void test3_readDetailsByPartyIdWithFromDate() throws Exception {
-		final var result = setupCall()
+	void test3_readDetailsByCustomerEngagementOrgId() throws Exception {
+		setupCall()
 			.withServicePath("/details")
 			.withHttpMethod(POST)
 			.withRequest("request.json")
@@ -60,17 +48,11 @@ class ReadDetailsIT extends AbstractAppTest {
 			.withExpectedResponseStatus(OK)
 			.sendRequestAndVerifyResponse()
 			.andReturnBody(CustomerDetailsResponse.class);
-
-		assertThat(result.getCustomerDetails()).isNotEmpty();
-		assertThat(result.getCustomerDetails()).hasSize(1);
-		assertThat(result.getMeta().getCount()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalRecords()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalPages()).isEqualTo(1);
 	}
 
 	@Test
-	void test4_readDetailsByCustomerEngagementOrgId() throws Exception {
-		final var result = setupCall()
+	void test4_readDetailsByCustomerEngagementOrgIdNotFound() throws Exception {
+		setupCall()
 			.withServicePath("/details")
 			.withHttpMethod(POST)
 			.withRequest("request.json")
@@ -78,46 +60,5 @@ class ReadDetailsIT extends AbstractAppTest {
 			.withExpectedResponseStatus(OK)
 			.sendRequestAndVerifyResponse()
 			.andReturnBody(CustomerDetailsResponse.class);
-
-		assertThat(result.getCustomerDetails()).isNotEmpty();
-		assertThat(result.getCustomerDetails()).hasSize(1);
-		assertThat(result.getMeta().getCount()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalRecords()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalPages()).isEqualTo(1);
-	}
-
-	@Test
-	void test5_readDetailsByCustomerEngagementOrgIdNotFound() throws Exception {
-		final var result = setupCall()
-			.withServicePath("/details")
-			.withHttpMethod(POST)
-			.withRequest("request.json")
-			.withExpectedResponse("response.json")
-			.withExpectedResponseStatus(OK)
-			.sendRequestAndVerifyResponse()
-			.andReturnBody(CustomerDetailsResponse.class);
-
-		assertThat(result.getCustomerDetails()).isEmpty();
-		assertThat(result.getMeta().getCount()).isZero();
-		assertThat(result.getMeta().getTotalRecords()).isZero();
-		assertThat(result.getMeta().getTotalPages()).isZero();
-	}
-
-	@Test
-	void test6_readDetailsByCustomerEngagementOrgIdWithFromDate() throws Exception {
-		final var result = setupCall()
-			.withServicePath("/details")
-			.withHttpMethod(POST)
-			.withRequest("request.json")
-			.withExpectedResponse("response.json")
-			.withExpectedResponseStatus(OK)
-			.sendRequestAndVerifyResponse()
-			.andReturnBody(CustomerDetailsResponse.class);
-
-		assertThat(result.getCustomerDetails()).isNotEmpty();
-		assertThat(result.getCustomerDetails()).hasSize(1);
-		assertThat(result.getMeta().getCount()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalRecords()).isEqualTo(1);
-		assertThat(result.getMeta().getTotalPages()).isEqualTo(1);
 	}
 }

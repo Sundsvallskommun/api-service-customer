@@ -1,5 +1,6 @@
 package se.sundsvall.customer.api;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,6 +24,7 @@ import static java.lang.String.format;
 import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
+import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -90,19 +92,18 @@ class DetailsResourceFailureTest {
 		if (response instanceof ConstraintViolationProblem constraintViolationProblem) {
 			assertThat(constraintViolationProblem.getTitle()).isEqualTo("Constraint Violation");
 
-			if (!isEmpty(request.getPartyId())) {
+			if (!isEmpty(request.getPartyId()) && isNotBlank(request.getCustomerEngagementOrgId())) {
 				// We have constraint violations on partyId
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
 					.containsExactly(tuple("partyId[0]", "not a valid UUID"));
-			} else if (isEmpty(request.getPartyId()) && request.getCustomerEngagementOrgId() == null) {
-				// We have constraint violations when both partyId and customerEngagementOrgId are missing
+			} else if (request.getCustomerEngagementOrgId() == null) {
+				// We have constraint violations when customerEngagementOrgId is missing
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
 					.containsExactlyInAnyOrder(
-						tuple("getCustomerDetails.request", "'partyId' or 'customerEngagementOrgId' must be provided"));
-			} else
-			{
+						tuple("getCustomerDetails.request", "'customerEngagementOrgId' must be provided"));
+			} else {
 				// We have constraint violations on customerEngagementOrgId
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
@@ -110,7 +111,7 @@ class DetailsResourceFailureTest {
 			}
 		} else {
 			assertThat(response.getTitle()).isEqualTo("Bad Request");
-			assertThat(response.getDetail()).isEqualTo("'partyId' or 'customerEngagementOrgId' must be provided");
+			assertThat(response.getDetail()).isEqualTo("'customerEngagementOrgId' must be provided");
 		}
 
 		verifyNoInteractions(customerServiceMock);
@@ -119,16 +120,12 @@ class DetailsResourceFailureTest {
 	private static Stream<CustomerDetailsRequest> invalidRequestProvider() {
 
 		return Stream.of(
-			new CustomerDetailsRequestForTest("neither partyId or customerEngagementOrgId is set")
-				.asConstraintViolation(),
-			new CustomerDetailsRequestForTest("partyId is set but empty")
-				.asConstraintViolation()
-				.withPartyId(List.of()),
 			new CustomerDetailsRequestForTest("customerEngagementOrgId is set but empty")
 				.asConstraintViolation()
 				.withCustomerEngagementOrgId(""),
 			new CustomerDetailsRequestForTest("partyId is set but invalid")
 				.asConstraintViolation()
+				.withCustomerEngagementOrgId("1234567890")
 				.withPartyId(List.of("invalid-party-id")),
 			new CustomerDetailsRequestForTest("customerEngagementOrgId is set but invalid")
 				.asConstraintViolation()
