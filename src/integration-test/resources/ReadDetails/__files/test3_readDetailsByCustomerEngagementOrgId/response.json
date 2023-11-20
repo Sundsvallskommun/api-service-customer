@@ -17,12 +17,14 @@
 			"customerCategoryID": 1,
 			"customerCategoryDescription": "Privat",
 			"customerChangedFlg": true,
-			"installedChangedFlg": true
+			"installedChangedFlg": true,
+			"customerEngagementOrgId": "5565027223",
+			"customerEngagementOrgName": "Sundsvall Elnät"
 		}
 	],
 	"_meta": {
-		"page": 0,
-		"limit": 0,
+		"page": 1,
+		"limit": 100,
 		"count": 1,
 		"totalRecords": 1,
 		"totalPages": 1,

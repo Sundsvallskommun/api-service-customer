@@ -1,17 +1,22 @@
 package se.sundsvall.customer.service;
 
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
+
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+import org.zalando.problem.Problem;
+import org.zalando.problem.ThrowableProblem;
+
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static java.util.Optional.ofNullable;
-import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsParameters;
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
+import generated.se.sundsvall.datawarehousereader.Direction;
 
 @Service
 public class CustomerService {
@@ -32,12 +37,12 @@ public class CustomerService {
 		return dataWarehouseReaderClient.getCustomerDetails(
 			request.getPartyId(),
 			request.getCustomerEngagementOrgId(),
-			fromOffsetDateTimeToString(request.getFromDateTime()));
-	}
-
-	private String fromOffsetDateTimeToString(OffsetDateTime fromDateTime) {
-		return ofNullable(fromDateTime)
-			.map(DATE_TIME_FORMAT::format)
-			.orElse(null);
+			//If no date is provided, send nothing
+			Optional.ofNullable(request.getFromDateTime()).map(fromDate -> fromDate.format(DATE_TIME_FORMAT)).orElse(null),
+			request.getPage(),
+			request.getLimit(),
+			request.getSortBy(),
+			Direction.fromValue(request.getSortDirection().toString())
+		);
 	}
 }

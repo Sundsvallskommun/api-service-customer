@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import org.zalando.problem.ThrowableProblem;
 
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
@@ -25,6 +26,7 @@ import generated.se.sundsvall.datawarehousereader.CustomerDetails;
 import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
+import generated.se.sundsvall.datawarehousereader.Direction;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
@@ -74,18 +76,22 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void getCustomerDetailsForPartyId() {
+	void getCustomerDetailsForPartyIdAndEngagementOrgId() {
 		// Parameters
 		final var partyId = List.of(UUID.randomUUID().toString());
 		final var fromDateTime = OffsetDateTime.now();
 		final var request = new CustomerDetailsRequest()
 			.withPartyId(partyId)
 			.withFromDateTime(fromDateTime);
+		request.setLimit(100);
+		request.setPage(100);
+		request.setSortBy(List.of("partyId"));
+		request.setSortDirection(Sort.Direction.ASC);
 
 		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
 
 		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString))
+		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
 			.thenReturn(new CustomerDetailsResponse()
 				.customerDetails(List.of(new CustomerDetails()
 					.partyId(partyId.get(0))
@@ -104,7 +110,7 @@ class CustomerServiceTest {
 
 		// Verification
 		assertThat(result).isNotNull();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, null, fromDateTimeAsString);
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
 	}
 
 	@Test
@@ -115,11 +121,15 @@ class CustomerServiceTest {
 		final var request = new CustomerDetailsRequest()
 			.withCustomerEngagementOrgId(orgId)
 			.withFromDateTime(fromDateTime);
+		request.setLimit(100);
+		request.setPage(100);
+		request.setSortBy(List.of("partyId"));
+		request.setSortDirection(Sort.Direction.ASC);
 
 		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
 
 		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(null, orgId, fromDateTimeAsString))
+		when(dataWarehouseReaderClientMock.getCustomerDetails(null, orgId, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
 			.thenReturn(new CustomerDetailsResponse()
 				.customerDetails(List.of(new CustomerDetails()
 					.partyId("somePartyId")
@@ -138,43 +148,7 @@ class CustomerServiceTest {
 
 		// Verification
 		assertThat(result).isNotNull();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(null, orgId, fromDateTimeAsString);
-	}
-
-	@Test
-	void getCustomerDetailsForPartyIdAndCustomerEngagementOrgId() {
-		// Parameters
-		final var partyId = List.of(UUID.randomUUID().toString());
-		final var orgId = "1234567890";
-		final var fromDateTime = OffsetDateTime.now();
-		final var request = new CustomerDetailsRequest()
-			.withPartyId(partyId)
-			.withCustomerEngagementOrgId(orgId)
-			.withFromDateTime(fromDateTime);
-
-		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
-
-		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, orgId, fromDateTimeAsString))
-			.thenReturn(new CustomerDetailsResponse()
-				.customerDetails(List.of(new CustomerDetails()
-					.partyId("somePartyId")
-					.customerNumber("customerNumber")
-					.customerName("customerName")
-					.customerCategoryID(1)
-					.street("street")
-					.postalCode("postalCode")
-					.city("city")
-					.careOf("careOf-1")
-					.phoneNumbers(List.of("phoneNumbers-1", "phoneNumbers-2"))
-					.emails(List.of("emails-1", "emails-2")))));
-
-		// Call
-		final var result = customerService.getCustomerDetails(request);
-
-		// Verification
-		assertThat(result).isNotNull();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, orgId, fromDateTimeAsString);
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(null, orgId, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
 	}
 
 	@Test
@@ -185,11 +159,15 @@ class CustomerServiceTest {
 		final var request = new CustomerDetailsRequest()
 			.withPartyId(partyId)
 			.withFromDateTime(fromDateTime);
+		request.setLimit(100);
+		request.setPage(100);
+		request.setSortBy(List.of("partyId"));
+		request.setSortDirection(Sort.Direction.ASC);
 
 		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
 
 		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString)).thenReturn(new CustomerDetailsResponse()
+		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()))).thenReturn(new CustomerDetailsResponse()
 			.customerDetails(emptyList()));
 
 		// Call
@@ -197,6 +175,6 @@ class CustomerServiceTest {
 
 		// Verification
 		assertThat(result.getCustomerDetails()).isEmpty();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, null, fromDateTimeAsString);
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
 	}
 }

@@ -4,8 +4,8 @@
 		"method": "GET",
 		"urlPath": "/api-datawarehousereader/customer/details",
 		"queryParameters": {
-			"partyId": {
-				"equalTo": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105"
+			"customerEngagementOrgId": {
+				"equalTo": "1234567890"
 			}
 		}
 	},
@@ -33,12 +33,14 @@
 					"customerCategoryID": 1,
 					"customerCategoryDescription": "Privat",
 					"customerChangedFlg": true,
-					"installedChangedFlg": true
+					"installedChangedFlg": true,
+					"customerEngagementOrgId": "5565027223",
+					"customerEngagementOrgName": "Sundsvall Elnät"
 				}
 			],
 			"_meta": {
-				"page": 0,
-				"limit": 0,
+				"page": 1,
+				"limit": 100,
 				"count": 1,
 				"totalRecords": 1,
 				"totalPages": 1,
