@@ -4,7 +4,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +29,11 @@ import se.sundsvall.dept44.common.validators.annotation.ValidUuid;
 @Tag(name = "Customer", description = "Customer operations")
 public class CustomerResource {
 
-	@Autowired
-	private CustomerService customerService;
+	private final CustomerService customerService;
+
+	public CustomerResource(CustomerService customerService) {
+		this.customerService = customerService;
+	}
 
 	/**
 	 * @deprecated

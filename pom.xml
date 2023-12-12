@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>se.sundsvall.dept44</groupId>
 		<artifactId>dept44-service-parent</artifactId>
-		<version>3.4</version>
+		<version>4.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.sundsvall</groupId>
@@ -16,7 +16,6 @@
 		<docker.image.name>ms-customer</docker.image.name>
 		<published.container.port.test>10001</published.container.port.test>
 		<published.container.port.production>10001</published.container.port.production>
-		 
   		<!-- Service properties -->
 		<openapi-generator-maven-plugin.version>7.1.0</openapi-generator-maven-plugin.version>
 		<generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
