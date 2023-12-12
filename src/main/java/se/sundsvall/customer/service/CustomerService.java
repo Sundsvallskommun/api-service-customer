@@ -7,16 +7,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.zalando.problem.Problem;
-import org.zalando.problem.ThrowableProblem;
 
+import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
+import generated.se.sundsvall.datawarehousereader.Direction;
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
-
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsParameters;
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
-import generated.se.sundsvall.datawarehousereader.Direction;
 
 @Service
 public class CustomerService {
@@ -37,12 +33,11 @@ public class CustomerService {
 		return dataWarehouseReaderClient.getCustomerDetails(
 			request.getPartyId(),
 			request.getCustomerEngagementOrgId(),
-			//If no date is provided, send nothing
+			// If no date is provided, send nothing
 			Optional.ofNullable(request.getFromDateTime()).map(fromDate -> fromDate.format(DATE_TIME_FORMAT)).orElse(null),
 			request.getPage(),
 			request.getLimit(),
 			request.getSortBy(),
-			Direction.fromValue(request.getSortDirection().toString())
-		);
+			Direction.fromValue(request.getSortDirection().toString()));
 	}
 }
