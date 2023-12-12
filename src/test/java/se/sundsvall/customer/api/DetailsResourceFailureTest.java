@@ -1,25 +1,5 @@
 package se.sundsvall.customer.api;
 
-import org.codehaus.plexus.util.StringUtils;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.zalando.problem.Problem;
-import org.zalando.problem.violations.ConstraintViolationProblem;
-import org.zalando.problem.violations.Violation;
-import se.sundsvall.customer.Application;
-import se.sundsvall.customer.api.model.CustomerDetailsRequest;
-import se.sundsvall.customer.service.CustomerService;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Stream;
-
 import static java.lang.String.format;
 import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +12,26 @@ import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 import static org.zalando.problem.Status.BAD_REQUEST;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.zalando.problem.Problem;
+import org.zalando.problem.violations.ConstraintViolationProblem;
+import org.zalando.problem.violations.Violation;
+
+import se.sundsvall.customer.Application;
+import se.sundsvall.customer.api.model.CustomerDetailsRequest;
+import se.sundsvall.customer.service.CustomerService;
 
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
@@ -89,7 +89,7 @@ class DetailsResourceFailureTest {
 		assertThat(response).isNotNull();
 		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
 
-		if (response instanceof ConstraintViolationProblem constraintViolationProblem) {
+		if (response instanceof final ConstraintViolationProblem constraintViolationProblem) {
 			assertThat(constraintViolationProblem.getTitle()).isEqualTo("Constraint Violation");
 
 			if (!isEmpty(request.getPartyId()) && isNotBlank(request.getCustomerEngagementOrgId())) {
@@ -129,8 +129,7 @@ class DetailsResourceFailureTest {
 				.withPartyId(List.of("invalid-party-id")),
 			new CustomerDetailsRequestForTest("customerEngagementOrgId is set but invalid")
 				.asConstraintViolation()
-				.withCustomerEngagementOrgId("invalid-org-id")
-		);
+				.withCustomerEngagementOrgId("invalid-org-id"));
 	}
 
 	/*
