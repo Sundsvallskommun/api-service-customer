@@ -12,10 +12,6 @@
 	<version>3.1</version>
 	<name>api-service-customer</name>
 	<properties>
-		<!-- Pipeline properties -->
-		<docker.image.name>ms-customer</docker.image.name>
-		<published.container.port.test>10001</published.container.port.test>
-		<published.container.port.production>10001</published.container.port.production>
   		<!-- Service properties -->
 		<generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
 		<generated-sources-java-path>src/main/java</generated-sources-java-path>
