@@ -17,25 +17,25 @@ class ReadDetailsIT extends AbstractAppTest {
 	@Test
 	void test1_readDetailsByPartyIdAndEngagementOrgId() throws Exception {
 		setupCall()
-				.withServicePath("/details")
-				.withHttpMethod(POST)
-				.withRequest("request.json")
-				.withExpectedResponse("response.json")
-				.withExpectedResponseStatus(OK)
-				.sendRequestAndVerifyResponse()
-				.andReturnBody(CustomerDetailsResponse.class);
+			.withServicePath("/details")
+			.withHttpMethod(POST)
+			.withRequest("request.json")
+			.withExpectedResponse("response.json")
+			.withExpectedResponseStatus(OK)
+			.sendRequestAndVerifyResponse()
+			.andReturnBody(CustomerDetailsResponse.class);
 	}
 
 	@Test
 	void test2_readDetailsByCustomerEngagementOrgIdWithFromDate() throws Exception {
 		setupCall()
-				.withServicePath("/details")
-				.withHttpMethod(POST)
-				.withRequest("request.json")
-				.withExpectedResponse("response.json")
-				.withExpectedResponseStatus(OK)
-				.sendRequestAndVerifyResponse()
-				.andReturnBody(CustomerDetailsResponse.class);
+			.withServicePath("/details")
+			.withHttpMethod(POST)
+			.withRequest("request.json")
+			.withExpectedResponse("response.json")
+			.withExpectedResponseStatus(OK)
+			.sendRequestAndVerifyResponse()
+			.andReturnBody(CustomerDetailsResponse.class);
 	}
 
 	@Test

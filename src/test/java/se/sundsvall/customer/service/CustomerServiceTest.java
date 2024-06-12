@@ -19,14 +19,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 import org.zalando.problem.ThrowableProblem;
 
-import se.sundsvall.customer.api.model.CustomerDetailsRequest;
-import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
-
-import generated.se.sundsvall.datawarehousereader.CustomerDetails;
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
 import generated.se.sundsvall.datawarehousereader.Direction;
+import se.sundsvall.customer.api.model.CustomerDetailsRequest;
+import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
@@ -92,8 +89,8 @@ class CustomerServiceTest {
 
 		// Mock
 		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
-			.thenReturn(new CustomerDetailsResponse()
-				.customerDetails(List.of(new CustomerDetails()
+			.thenReturn(new generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse()
+				.customerDetails(List.of(new generated.se.sundsvall.datawarehousereader.CustomerDetails()
 					.partyId(partyId.get(0))
 					.customerNumber("customerNumber")
 					.customerName("customerName")
@@ -130,8 +127,8 @@ class CustomerServiceTest {
 
 		// Mock
 		when(dataWarehouseReaderClientMock.getCustomerDetails(null, orgId, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
-			.thenReturn(new CustomerDetailsResponse()
-				.customerDetails(List.of(new CustomerDetails()
+			.thenReturn(new generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse()
+				.customerDetails(List.of(new generated.se.sundsvall.datawarehousereader.CustomerDetails()
 					.partyId("somePartyId")
 					.customerNumber("customerNumber")
 					.customerName("customerName")
@@ -167,8 +164,9 @@ class CustomerServiceTest {
 		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
 
 		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()))).thenReturn(new CustomerDetailsResponse()
-			.customerDetails(emptyList()));
+		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()))).thenReturn(
+			new generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse()
+				.customerDetails(emptyList()));
 
 		// Call
 		final var result = customerService.getCustomerDetails(request);

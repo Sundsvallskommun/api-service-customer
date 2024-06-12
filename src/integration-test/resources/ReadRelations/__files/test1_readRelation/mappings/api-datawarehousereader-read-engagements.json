@@ -21,7 +21,17 @@
 					"customerType": "Private",
 					"customerNumber": "691071",
 					"organizationNumber": "556478-6647",
-					"organizationName": "Sundsvall Energi AB"
+					"organizationName": "Sundsvall Energi AB",
+					"active": true
+				},
+				{
+					"partyId": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105",
+					"customerType": "Private",
+					"customerNumber": "1337",
+					"organizationNumber": "556661-8756",
+					"organizationName": "MittSverige Vatten och Avfall AB",
+					"active": false,
+					"moveInDate": "2095-01-01"
 				}
 			],
 			"_meta": {

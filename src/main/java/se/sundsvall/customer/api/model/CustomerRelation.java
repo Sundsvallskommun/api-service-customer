@@ -2,7 +2,10 @@ package se.sundsvall.customer.api.model;
 
 import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
 
+import java.time.LocalDate;
 import java.util.Objects;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -17,6 +20,13 @@ public class CustomerRelation {
 
 	@Schema(description = "Organization name", example = "Sundsvall Elnät", accessMode = READ_ONLY)
 	private String organizationName;
+
+	@Schema(description = "Indicates customer status, if not active then the moveInDate holds information on when the customer will be activated", example = "true", accessMode = READ_ONLY)
+	private boolean active;
+
+	@Schema(description = "The prospective customer's move-in date", accessMode = READ_ONLY)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	private LocalDate moveInDate;
 
 	public static CustomerRelation create() {
 		return new CustomerRelation();
@@ -61,27 +71,54 @@ public class CustomerRelation {
 		return this;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public CustomerRelation withActive(boolean active) {
+		this.active = active;
+		return this;
+	}
+
+	public LocalDate getMoveInDate() {
+		return moveInDate;
+	}
+
+	public void setMoveInDate(LocalDate moveInDate) {
+		this.moveInDate = moveInDate;
+	}
+
+	public CustomerRelation withMoveInDate(LocalDate moveInDate) {
+		this.moveInDate = moveInDate;
+		return this;
+	}
+
 	@Override
-	public int hashCode() { return Objects.hash(customerNumber, organizationName, organizationNumber); }
+	public int hashCode() {
+		return Objects.hash(active, customerNumber, moveInDate, organizationName, organizationNumber);
+	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!(obj instanceof final CustomerRelation other)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CustomerRelation other = (CustomerRelation) obj;
-		return Objects.equals(customerNumber, other.customerNumber) && Objects.equals(organizationName, other.organizationName) && Objects.equals(organizationNumber,
+		}
+		return active == other.active && Objects.equals(customerNumber, other.customerNumber) && Objects.equals(moveInDate, other.moveInDate) && Objects.equals(organizationName, other.organizationName) && Objects.equals(organizationNumber,
 			other.organizationNumber);
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("CustomerRelation [customerNumber=").append(customerNumber).append(", organizationNumber=").append(organizationNumber).append(", organizationName=").append(
-			organizationName).append("]");
+		final var builder = new StringBuilder();
+		builder.append("CustomerRelation [customerNumber=").append(customerNumber).append(", organizationNumber=").append(organizationNumber).append(", organizationName=").append(organizationName).append(", active=").append(active).append(
+			", moveInDate=").append(moveInDate).append("]");
 		return builder.toString();
 	}
 }

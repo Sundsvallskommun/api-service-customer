@@ -12,11 +12,11 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Random;
 
-import com.google.code.beanmatchers.BeanMatchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Sort;
 
-import generated.se.sundsvall.datawarehousereader.Direction;
+import com.google.code.beanmatchers.BeanMatchers;
 
 class CustomerDetailsRequestTest {
 
@@ -39,35 +39,34 @@ class CustomerDetailsRequestTest {
 		final var partyId = "somePartyId";
 		final var customerEngagementOrgId = "someCustomerEngagementOrgId";
 		final var fromDateTime = OffsetDateTime.now().minusYears(5);
+		final var sortBy = List.of("sort1", "sort2");
+		final var page = 1;
+		final var limit = 10;
 
 		final var request = new CustomerDetailsRequest()
 			.withPartyId(List.of(partyId))
 			.withCustomerEngagementOrgId(customerEngagementOrgId)
 			.withFromDateTime(fromDateTime);
-		request.setSortBy(List.of("sort1", "sort2"));
-		request.setPage(1);
-		request.setLimit(10);
+		request.setSortBy(sortBy);
+		request.setPage(page);
+		request.setLimit(limit);
 
 		assertThat(request).isNotNull().hasNoNullFieldsOrProperties();
 		assertThat(request.getPartyId()).containsExactly(partyId);
 		assertThat(request.getCustomerEngagementOrgId()).isEqualTo(customerEngagementOrgId);
 		assertThat(request.getFromDateTime()).isEqualTo(fromDateTime);
-		assertThat(request.getPage()).isEqualTo(1);
-		assertThat(request.getLimit()).isEqualTo(10);
-		assertThat(request.getSortBy()).containsExactly("sort1", "sort2");
-		assertThat(request.getSortDirection()).hasToString(Direction.ASC.toString());
+		assertThat(request.getPage()).isEqualTo(page);
+		assertThat(request.getLimit()).isEqualTo(limit);
+		assertThat(request.getSortBy()).isEqualTo(sortBy);
+		assertThat(request.getSortDirection()).isEqualTo(Sort.DEFAULT_DIRECTION);
 	}
 
 	@Test
 	void hasNoDirtOnCreatedBean() {
-		var customerDetailsRequest = new CustomerDetailsRequest();
-		assertThat(customerDetailsRequest).hasAllNullFieldsOrPropertiesExcept("page", "limit", "sortDirection");
-		assertThat(customerDetailsRequest.getSortDirection()).hasToString(Direction.ASC.toString());
-		assertThat(customerDetailsRequest.getPage()).isEqualTo(1);
-		assertThat(customerDetailsRequest.getLimit()).isEqualTo(100);
-		assertThat(customerDetailsRequest.getSortBy()).isNull();
-		assertThat(customerDetailsRequest.getFromDateTime()).isNull();
-		assertThat(customerDetailsRequest.getCustomerEngagementOrgId()).isNull();
-		assertThat(customerDetailsRequest.getPartyId()).isNull();
+		final var customerDetailsRequest = new CustomerDetailsRequest();
+		assertThat(customerDetailsRequest).hasAllNullFieldsOrPropertiesExcept("page", "limit", "sortDirection")
+			.hasFieldOrPropertyWithValue("page", 1)
+			.hasFieldOrPropertyWithValue("limit", 100)
+			.hasFieldOrPropertyWithValue("sortDirection", Sort.DEFAULT_DIRECTION);
 	}
 }

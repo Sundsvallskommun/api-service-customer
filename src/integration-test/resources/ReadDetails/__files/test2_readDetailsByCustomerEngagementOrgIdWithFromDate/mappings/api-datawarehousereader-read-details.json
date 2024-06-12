@@ -38,7 +38,9 @@
 					"customerChangedFlg": true,
 					"installedChangedFlg": true,
 					"customerEngagementOrgId": "5565027223",
-					"customerEngagementOrgName": "Sundsvall Elnät"
+					"customerEngagementOrgName": "Sundsvall Elnät",
+					"active": false,
+					"moveInDate": "2095-01-01"
 				}
 			],
 			"_meta": {
