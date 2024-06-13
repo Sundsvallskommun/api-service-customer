@@ -2,16 +2,17 @@ package se.sundsvall.customer.service;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
+import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomerDetailsResponse;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.Direction;
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
+import se.sundsvall.customer.api.model.CustomerDetailsResponse;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
 
 @Service
@@ -30,7 +31,7 @@ public class CustomerService {
 	}
 
 	public CustomerDetailsResponse getCustomerDetails(final CustomerDetailsRequest request) {
-		return dataWarehouseReaderClient.getCustomerDetails(
+		return toCustomerDetailsResponse(dataWarehouseReaderClient.getCustomerDetails(
 			request.getPartyId(),
 			request.getCustomerEngagementOrgId(),
 			// If no date is provided, send nothing
@@ -38,6 +39,6 @@ public class CustomerService {
 			request.getPage(),
 			request.getLimit(),
 			request.getSortBy(),
-			Direction.fromValue(request.getSortDirection().toString()));
+			Direction.fromValue(request.getSortDirection().toString())));
 	}
 }
