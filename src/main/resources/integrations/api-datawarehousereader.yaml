@@ -5,7 +5,10 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: "3.7"
+  version: "4.0"
+servers:
+- url: https://datawarehousereader-af-datawarehousereader.apps.ocp101.sundsvall.se
+  description: Generated server url
 tags:
 - name: Measurement
   description: Measurement operations
@@ -18,7 +21,7 @@ tags:
 - name: Invoice
   description: Invoice operations
 paths:
-  /measurements/{category}/{aggregateOn}:
+  /{municipalityId}/measurements/{category}/{aggregateOn}:
     get:
       tags:
       - Measurement
@@ -26,6 +29,13 @@ paths:
       description: Resource returns measurement data matching provided search parameters
       operationId: getMeasurements
       parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       - name: category
         in: path
         required: true
@@ -42,6 +52,20 @@ paths:
         schema:
           $ref: "#/components/schemas/MeasurementParameters"
       responses:
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful operation
           content:
@@ -51,21 +75,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/MeasurementResponse"
-        "500":
-          description: Internal Server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
-  /invoices:
+  /{municipalityId}/invoices:
     get:
       tags:
       - Invoice
@@ -73,12 +83,33 @@ paths:
       description: Resource returns all invoices matching provided search parameters
       operationId: getInvoices
       parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       - name: searchParams
         in: query
         required: true
         schema:
           $ref: "#/components/schemas/InvoiceParameters"
       responses:
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful operation
           content:
@@ -88,21 +119,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/InvoiceResponse"
-        "500":
-          description: Internal Server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
-  /invoices/{organizationNumber}/{invoiceNumber}/details:
+  /{municipalityId}/invoices/{organizationNumber}/{invoiceNumber}/details:
     get:
       tags:
       - Invoice
@@ -110,6 +127,13 @@ paths:
         number and having invoice number matching provided invoice number
       operationId: getInvoiceDetails
       parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       - name: organizationNumber
         in: path
         description: Organization number of invoice issuer
@@ -126,6 +150,12 @@ paths:
           format: int64
         example: 805137494
       responses:
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful operation
           content:
@@ -139,8 +169,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InvoiceDetail"
-        "500":
-          description: Internal Server error
+        "400":
+          description: Bad request
           content:
             application/problem+json:
               schema:
@@ -151,13 +181,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-  /installedbase:
+  /{municipalityId}/installedbase:
     get:
       tags:
       - Installed base
@@ -165,12 +189,33 @@ paths:
       description: Resource returns all installed bases matching provided search parameters
       operationId: getInstalledBase
       parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       - name: searchParams
         in: query
         required: true
         schema:
           $ref: "#/components/schemas/InstalledBaseParameters"
       responses:
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful operation
           content:
@@ -180,21 +225,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/InstalledBaseResponse"
-        "500":
-          description: Internal Server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
-  /installations:
+  /{municipalityId}/installations:
     get:
       tags:
       - Installations
@@ -202,12 +233,33 @@ paths:
       description: Resource returns all installations matching provided search parameters
       operationId: getInstallationDetails
       parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       - name: searchParams
         in: query
         required: true
         schema:
           $ref: "#/components/schemas/InstallationParameters"
       responses:
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful operation
           content:
@@ -217,21 +269,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/InstallationDetailsResponse"
-        "500":
-          description: Internal Server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
-  /customer/engagements:
+  /{municipalityId}/customer/engagements:
     get:
       tags:
       - Customer
@@ -240,12 +278,33 @@ paths:
         parameters
       operationId: getCustomerEngagements
       parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       - name: searchParams
         in: query
         required: true
         schema:
           $ref: "#/components/schemas/CustomerEngagementParameters"
       responses:
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful operation
           content:
@@ -255,21 +314,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/CustomerEngagementResponse"
-        "500":
-          description: Internal Server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
-  /customer/details:
+  /{municipalityId}/customer/details:
     get:
       tags:
       - Customer
@@ -278,12 +323,33 @@ paths:
         parameters
       operationId: getCustomerDetails
       parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       - name: searchParams
         in: query
         required: true
         schema:
           $ref: "#/components/schemas/CustomerDetailsParameters"
       responses:
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful operation
           content:
@@ -293,12 +359,27 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/CustomerDetailsResponse"
-        "500":
-          description: Internal Server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
+  /{municipalityId}/agreements:
+    get:
+      tags:
+      - Agreement
+      summary: Get agreements
+      description: Resource returns all agreements matching provided search parameters
+      operationId: getAgreements
+      parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
+      - name: searchParams
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/AgreementParameters"
+      responses:
         "400":
           description: Bad request
           content:
@@ -307,6 +388,21 @@ paths:
                 oneOf:
                 - $ref: "#/components/schemas/Problem"
                 - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "500":
+          description: Internal Server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgreementResponse"
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/AgreementResponse"
   /api-docs:
     get:
       tags:
@@ -323,43 +419,6 @@ paths:
       x-auth-type: None
       x-throttling-tier: Unlimited
       x-wso2-mutual-ssl: Optional
-  /agreements:
-    get:
-      tags:
-      - Agreement
-      summary: Get agreements
-      description: Resource returns all agreements matching provided search parameters
-      operationId: getAgreements
-      parameters:
-      - name: searchParams
-        in: query
-        required: true
-        schema:
-          $ref: "#/components/schemas/AgreementParameters"
-      responses:
-        "200":
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AgreementResponse"
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/AgreementResponse"
-        "500":
-          description: Internal Server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
 components:
   schemas:
     Category:
@@ -435,10 +494,6 @@ components:
     Problem:
       type: object
       properties:
-        title:
-          type: string
-        detail:
-          type: string
         instance:
           type: string
           format: uri
@@ -451,6 +506,10 @@ components:
             type: object
         status:
           $ref: "#/components/schemas/StatusType"
+        title:
+          type: string
+        detail:
+          type: string
     StatusType:
       type: object
       properties:
@@ -499,8 +558,6 @@ components:
           type: string
         message:
           type: string
-        detail:
-          type: string
         instance:
           type: string
           format: uri
@@ -508,6 +565,8 @@ components:
           type: object
           additionalProperties:
             type: object
+        detail:
+          type: string
         suppressed:
           type: array
           items:
@@ -570,10 +629,6 @@ components:
                 type: boolean
         message:
           type: string
-        title:
-          type: string
-        detail:
-          type: string
         instance:
           type: string
           format: uri
@@ -586,6 +641,10 @@ components:
             type: object
         status:
           $ref: "#/components/schemas/StatusType"
+        title:
+          type: string
+        detail:
+          type: string
         suppressed:
           type: array
           items:

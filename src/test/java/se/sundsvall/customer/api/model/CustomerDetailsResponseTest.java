@@ -27,6 +27,7 @@ class CustomerDetailsResponseTest {
 
 	@Test
 	void hasValidBuilderMethods() {
+
 		final var customerDetails = List.of(CustomerDetails.create());
 		final var metaData = PagingAndSortingMetaData.create();
 

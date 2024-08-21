@@ -36,6 +36,7 @@ class CustomerDetailsRequestTest {
 
 	@Test
 	void hasValidBuilderMethods() {
+
 		final var partyId = "somePartyId";
 		final var customerEngagementOrgId = "someCustomerEngagementOrgId";
 		final var fromDateTime = OffsetDateTime.now().minusYears(5);
@@ -43,22 +44,22 @@ class CustomerDetailsRequestTest {
 		final var page = 1;
 		final var limit = 10;
 
-		final var request = new CustomerDetailsRequest()
+		final var bean = new CustomerDetailsRequest()
 			.withPartyId(List.of(partyId))
 			.withCustomerEngagementOrgId(customerEngagementOrgId)
 			.withFromDateTime(fromDateTime);
-		request.setSortBy(sortBy);
-		request.setPage(page);
-		request.setLimit(limit);
+		bean.setSortBy(sortBy);
+		bean.setPage(page);
+		bean.setLimit(limit);
 
-		assertThat(request).isNotNull().hasNoNullFieldsOrProperties();
-		assertThat(request.getPartyId()).containsExactly(partyId);
-		assertThat(request.getCustomerEngagementOrgId()).isEqualTo(customerEngagementOrgId);
-		assertThat(request.getFromDateTime()).isEqualTo(fromDateTime);
-		assertThat(request.getPage()).isEqualTo(page);
-		assertThat(request.getLimit()).isEqualTo(limit);
-		assertThat(request.getSortBy()).isEqualTo(sortBy);
-		assertThat(request.getSortDirection()).isEqualTo(Sort.DEFAULT_DIRECTION);
+		assertThat(bean).isNotNull().hasNoNullFieldsOrProperties();
+		assertThat(bean.getPartyId()).containsExactly(partyId);
+		assertThat(bean.getCustomerEngagementOrgId()).isEqualTo(customerEngagementOrgId);
+		assertThat(bean.getFromDateTime()).isEqualTo(fromDateTime);
+		assertThat(bean.getPage()).isEqualTo(page);
+		assertThat(bean.getLimit()).isEqualTo(limit);
+		assertThat(bean.getSortBy()).isEqualTo(sortBy);
+		assertThat(bean.getSortDirection()).isEqualTo(Sort.DEFAULT_DIRECTION);
 	}
 
 	@Test

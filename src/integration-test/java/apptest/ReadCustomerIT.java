@@ -13,11 +13,13 @@ import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 @WireMockAppTestSuite(files = "classpath:/ReadCustomer/", classes = Application.class)
 class ReadCustomerIT extends AbstractAppTest {
 
+	private static final String PATH = "/2281/customers";
+
 	@Test
-	void test1_readCustomer() throws Exception {
+	void test1_readCustomer() {
 
 		setupCall()
-			.withServicePath("/customers/3b7a5955-f481-42bd-a2b3-6ef8bd76b105")
+			.withServicePath(PATH + "/3b7a5955-f481-42bd-a2b3-6ef8bd76b105")
 			.withHttpMethod(GET)
 			.withExpectedResponse("response.json")
 			.withExpectedResponseStatus(OK)
@@ -25,10 +27,10 @@ class ReadCustomerIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test2_readCustomerNotFound() throws Exception {
+	void test2_readCustomerNotFound() {
 
 		setupCall()
-			.withServicePath("/customers/1d2a3bb3-3a38-4d65-9910-79dd9efa06c8")
+			.withServicePath(PATH + "/1d2a3bb3-3a38-4d65-9910-79dd9efa06c8")
 			.withHttpMethod(GET)
 			.withExpectedResponse("response.json")
 			.withExpectedResponseStatus(NOT_FOUND)

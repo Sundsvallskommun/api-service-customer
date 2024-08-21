@@ -35,6 +35,7 @@ class CustomerDetailsTest {
 
 	@Test
 	void hasValidBuilderMethods() {
+
 		final var active = true;
 		final var careOf = "careOf";
 		final var city = "city";

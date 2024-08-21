@@ -2,7 +2,7 @@
 	"name": "api-datawarehousereader-read-engagements",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-datawarehousereader/customer/engagements",
+		"urlPath": "/api-datawarehousereader/2281/customer/engagements",
 		"queryParameters": {
 			"partyId": {
 				"equalTo": "1d2a3bb3-3a38-4d65-9910-79dd9efa06c8"

@@ -1,6 +1,7 @@
 package se.sundsvall.customer.service;
 
 import static java.util.Collections.emptyList;
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -9,7 +10,6 @@ import static se.sundsvall.customer.service.CustomerService.DATE_TIME_FORMAT;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,46 +36,51 @@ class CustomerServiceTest {
 
 	@Test
 	void getCustomer() {
-		// Parameters
-		final var partyId = UUID.randomUUID().toString();
 
-		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerEngagement(partyId)).thenReturn(new CustomerEngagementResponse()
+		// Arrange
+		final var municipalityId = "municipalityId";
+		final var partyId = randomUUID().toString();
+
+		when(dataWarehouseReaderClientMock.getCustomerEngagement(municipalityId, partyId)).thenReturn(new CustomerEngagementResponse()
 			.customerEngagements(List.of(new CustomerEngagement()
 				.customerNumber("111")
 				.customerType(generated.se.sundsvall.datawarehousereader.CustomerType.ENTERPRISE)
 				.organizationName("organizationName-1")
 				.organizationNumber("organizationNumber-1"))));
 
-		// Call
-		final var result = customerService.getCustomer(partyId);
+		// Act
+		final var result = customerService.getCustomer(municipalityId, partyId);
 
-		// Verification
+		// Assert
 		assertThat(result).isNotNull();
-		verify(dataWarehouseReaderClientMock).getCustomerEngagement(partyId);
+		verify(dataWarehouseReaderClientMock).getCustomerEngagement(municipalityId, partyId);
 	}
 
 	@Test
 	void getCustomerWhenNotFound() {
-		// Parameters
-		final var partyId = UUID.randomUUID().toString();
+
+		// Arrange
+		final var municipalityId = "municipalityId";
+		final var partyId = randomUUID().toString();
 
 		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerEngagement(partyId)).thenReturn(new CustomerEngagementResponse()
+		when(dataWarehouseReaderClientMock.getCustomerEngagement(municipalityId, partyId)).thenReturn(new CustomerEngagementResponse()
 			.customerEngagements(emptyList()));
 
-		// Call
-		final var exception = assertThrows(ThrowableProblem.class, () -> customerService.getCustomer(partyId));
+		// Act
+		final var exception = assertThrows(ThrowableProblem.class, () -> customerService.getCustomer(municipalityId, partyId));
 
-		// Verification
+		// Assert
 		assertThat(exception).isNotNull().hasMessage("Not Found: No customer matched search criteria!");
-		verify(dataWarehouseReaderClientMock).getCustomerEngagement(partyId);
+		verify(dataWarehouseReaderClientMock).getCustomerEngagement(municipalityId, partyId);
 	}
 
 	@Test
 	void getCustomerDetailsForPartyIdAndEngagementOrgId() {
-		// Parameters
-		final var partyId = List.of(UUID.randomUUID().toString());
+
+		// Arrange
+		final var municipalityId = "municipalityId";
+		final var partyId = List.of(randomUUID().toString());
 		final var fromDateTime = OffsetDateTime.now();
 		final var request = new CustomerDetailsRequest()
 			.withPartyId(partyId)
@@ -87,8 +92,7 @@ class CustomerServiceTest {
 
 		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
 
-		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
+		when(dataWarehouseReaderClientMock.getCustomerDetails(municipalityId, partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
 			.thenReturn(new generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse()
 				.customerDetails(List.of(new generated.se.sundsvall.datawarehousereader.CustomerDetails()
 					.partyId(partyId.get(0))
@@ -102,17 +106,19 @@ class CustomerServiceTest {
 					.phoneNumbers(List.of("phoneNumbers-1", "phoneNumbers-2"))
 					.emails(List.of("emails-1", "emails-2")))));
 
-		// Call
-		final var result = customerService.getCustomerDetails(request);
+		// Act
+		final var result = customerService.getCustomerDetails(municipalityId, request);
 
-		// Verification
+		// Assert
 		assertThat(result).isNotNull();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(municipalityId, partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
 	}
 
 	@Test
 	void getCustomerDetailsForCustomerEngagementOrgId() {
-		// Parameters
+
+		// Arrange
+		final var municipalityId = "municipalityId";
 		final var orgId = "1234567890";
 		final var fromDateTime = OffsetDateTime.now();
 		final var request = new CustomerDetailsRequest()
@@ -125,8 +131,7 @@ class CustomerServiceTest {
 
 		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
 
-		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(null, orgId, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
+		when(dataWarehouseReaderClientMock.getCustomerDetails(municipalityId, null, orgId, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString())))
 			.thenReturn(new generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse()
 				.customerDetails(List.of(new generated.se.sundsvall.datawarehousereader.CustomerDetails()
 					.partyId("somePartyId")
@@ -140,18 +145,20 @@ class CustomerServiceTest {
 					.phoneNumbers(List.of("phoneNumbers-1", "phoneNumbers-2"))
 					.emails(List.of("emails-1", "emails-2")))));
 
-		// Call
-		final var result = customerService.getCustomerDetails(request);
+		// Act
+		final var result = customerService.getCustomerDetails(municipalityId, request);
 
-		// Verification
+		// Assert
 		assertThat(result).isNotNull();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(null, orgId, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(municipalityId, null, orgId, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
 	}
 
 	@Test
 	void getCustomerDetailsWhenNotFound() {
-		// Parameters
-		final var partyId = List.of(UUID.randomUUID().toString());
+
+		// Arrange
+		final var municipalityId = "municipalityId";
+		final var partyId = List.of(randomUUID().toString());
 		final var fromDateTime = OffsetDateTime.now();
 		final var request = new CustomerDetailsRequest()
 			.withPartyId(partyId)
@@ -163,16 +170,15 @@ class CustomerServiceTest {
 
 		final var fromDateTimeAsString = DATE_TIME_FORMAT.format(fromDateTime);
 
-		// Mock
-		when(dataWarehouseReaderClientMock.getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()))).thenReturn(
+		when(dataWarehouseReaderClientMock.getCustomerDetails(municipalityId, partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()))).thenReturn(
 			new generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse()
 				.customerDetails(emptyList()));
 
-		// Call
-		final var result = customerService.getCustomerDetails(request);
+		// Act
+		final var result = customerService.getCustomerDetails(municipalityId, request);
 
-		// Verification
+		// Assert
 		assertThat(result.getCustomerDetails()).isEmpty();
-		verify(dataWarehouseReaderClientMock).getCustomerDetails(partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
+		verify(dataWarehouseReaderClientMock).getCustomerDetails(municipalityId, partyId, null, fromDateTimeAsString, request.getPage(), request.getLimit(), request.getSortBy(), Direction.fromValue(request.getSortDirection().toString()));
 	}
 }

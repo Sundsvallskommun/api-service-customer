@@ -1,6 +1,7 @@
 package se.sundsvall.customer.api;
 
 import static java.lang.String.format;
+import static java.util.UUID.randomUUID;
 import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
@@ -14,7 +15,6 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 import static org.zalando.problem.Status.BAD_REQUEST;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -37,6 +37,8 @@ import se.sundsvall.customer.service.CustomerService;
 @ActiveProfiles("junit")
 class DetailsResourceFailureTest {
 
+	private static final String PATH = "/{municipalityId}/details";
+
 	@MockBean
 	private CustomerService customerServiceMock;
 
@@ -45,15 +47,17 @@ class DetailsResourceFailureTest {
 
 	@Test
 	void getDetailsInvalidOffsetDateTime() {
+
 		// Arrange
-		final var partyId = UUID.randomUUID().toString();
+		final var municipalityId = "2281";
+		final var partyId = randomUUID().toString();
 		final var offsetDateTime = "not-valid";
-		final var jsonBody = format("{\"partyId\": [\"%s\"], \"fromDateTime\": \"%s\"}", partyId, offsetDateTime);
+		final var body = format("{\"partyId\": [\"%s\"], \"fromDateTime\": \"%s\"}", partyId, offsetDateTime);
 
 		// Act
-		final var response = webTestClient.post().uri("/details")
+		final var response = webTestClient.post().uri(PATH, municipalityId)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.bodyValue(jsonBody)
+			.bodyValue(body)
 			.exchange()
 			.expectStatus().isBadRequest()
 			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
@@ -72,11 +76,49 @@ class DetailsResourceFailureTest {
 		verifyNoInteractions(customerServiceMock);
 	}
 
+	@Test
+	void getDetailsInvalidMunicipalityId() {
+
+		// Arrange
+		final var municipalityId = "invalid";
+		final var partyId = randomUUID().toString();
+		final var customerEngagementOrgId = "1234567890";
+		final var body = new CustomerDetailsRequest()
+			.withPartyId(List.of(partyId))
+			.withCustomerEngagementOrgId(customerEngagementOrgId);
+
+		// Act
+		final var response = webTestClient.post().uri(PATH, municipalityId)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.bodyValue(body)
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::getField, Violation::getMessage)
+			.containsExactly(tuple("getCustomerDetails.municipalityId", "not a valid municipality ID"));
+
+		// Verifications
+		verifyNoInteractions(customerServiceMock);
+	}
+
 	@ParameterizedTest(name = "when {0}")
 	@MethodSource("invalidRequestProvider")
 	void getDetailsWithInvalidRequests(final CustomerDetailsRequestForTest request) {
+
+		// Arrange
+		final var municipalityId = "2281";
 		final var expectedResponseBodyType = request.isConstraintViolation ? ConstraintViolationProblem.class : Problem.class;
-		final var response = webTestClient.post().uri("/details")
+
+		// Act
+		final var response = webTestClient.post().uri(PATH, municipalityId)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(fromValue(request))
 			.exchange()
@@ -86,6 +128,7 @@ class DetailsResourceFailureTest {
 			.returnResult()
 			.getResponseBody();
 
+		// Assert
 		assertThat(response).isNotNull();
 		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
 

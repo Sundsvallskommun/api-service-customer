@@ -2,7 +2,6 @@ package se.sundsvall.customer.service.mapper;
 
 import static com.nimbusds.oauth2.sdk.util.CollectionUtils.isEmpty;
 import static java.util.Collections.emptyList;
-import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static org.zalando.problem.Status.NOT_FOUND;
 
@@ -24,9 +23,7 @@ import se.sundsvall.dept44.models.api.paging.PagingAndSortingMetaData;
 public class CustomerMapper {
 
 	private static final String ERROR_NO_CUSTOMER_FOUND = "No customer matched search criteria!";
-
 	private static final String ERROR_NO_CUSTOMER_TYPE_FOUND = "No valid customerType was found!";
-
 	private static final String ERROR_DATAWAREHOUSEREADER_CUSTOMERTYPE_WAS_NULL = "DataWarehouseReader enum customerType was null!";
 
 	private CustomerMapper() {}
@@ -38,12 +35,10 @@ public class CustomerMapper {
 	}
 
 	public static CustomerType toCustomerType(generated.se.sundsvall.datawarehousereader.CustomerType dwrCustomerType) {
-		if (isNull(dwrCustomerType)) {
-			throw new IllegalArgumentException(ERROR_DATAWAREHOUSEREADER_CUSTOMERTYPE_WAS_NULL);
-		}
 		return switch (dwrCustomerType) {
 			case ENTERPRISE -> CustomerType.ENTERPRISE;
 			case PRIVATE -> CustomerType.PRIVATE;
+			case null -> throw new IllegalArgumentException(ERROR_DATAWAREHOUSEREADER_CUSTOMERTYPE_WAS_NULL);
 		};
 	}
 

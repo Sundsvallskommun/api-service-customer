@@ -2,7 +2,7 @@
 	"name": "api-datawarehousereader-read-details",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-datawarehousereader/customer/details",
+		"urlPath": "/api-datawarehousereader/2281/customer/details",
 		"queryParameters": {
 			"partyId": {
 				"equalTo": "9f395f51-b5ed-401b-b700-ef70cbb15d82"

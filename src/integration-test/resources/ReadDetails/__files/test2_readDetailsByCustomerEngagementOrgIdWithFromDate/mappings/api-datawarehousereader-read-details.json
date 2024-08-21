@@ -2,7 +2,7 @@
 	"name": "api-datawarehousereader-read-details",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-datawarehousereader/customer/details",
+		"urlPath": "/api-datawarehousereader/2281/customer/details",
 		"queryParameters": {
 			"customerEngagementOrgId": {
 				"equalTo": "1234567890"
