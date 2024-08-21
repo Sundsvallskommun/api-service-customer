@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
@@ -18,11 +19,14 @@ import se.sundsvall.customer.integration.datawarehousereader.configuration.DataW
 @FeignClient(name = CLIENT_ID, url = "${integration.datawarehousereader.url}", configuration = DataWarehouseReaderConfiguration.class)
 public interface DataWarehouseReaderClient {
 
-	@GetMapping(path = "customer/engagements", produces = { APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE })
-	CustomerEngagementResponse getCustomerEngagement(@RequestParam(value = "partyId") String partyId);
+	@GetMapping(path = "/{municipalityId}/customer/engagements", produces = { APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE })
+	CustomerEngagementResponse getCustomerEngagement(
+		@PathVariable("municipalityId") String municipalityId,
+		@RequestParam(value = "partyId") String partyId);
 
-	@GetMapping(path = "customer/details", produces = { APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE })
+	@GetMapping(path = "/{municipalityId}/customer/details", produces = { APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE })
 	CustomerDetailsResponse getCustomerDetails(
+		@PathVariable("municipalityId") String municipalityId,
 		@RequestParam(value = "partyId") List<String> partyId,
 		@RequestParam(value = "customerEngagementOrgId") String customerEngagementOrgId,
 		@RequestParam(value = "fromDateTime") String fromDateTime,

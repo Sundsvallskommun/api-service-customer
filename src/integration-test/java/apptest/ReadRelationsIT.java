@@ -13,11 +13,13 @@ import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 @WireMockAppTestSuite(files = "classpath:/ReadRelations/", classes = Application.class)
 class ReadRelationsIT extends AbstractAppTest {
 
+	private static final String PATH = "/2281/relations";
+
 	@Test
-	void test1_readRelation() throws Exception {
+	void test1_readRelation() {
 
 		setupCall()
-			.withServicePath("/relations/3b7a5955-f481-42bd-a2b3-6ef8bd76b105")
+			.withServicePath(PATH + "/3b7a5955-f481-42bd-a2b3-6ef8bd76b105")
 			.withHttpMethod(GET)
 			.withExpectedResponse("response.json")
 			.withExpectedResponseStatus(OK)
@@ -25,10 +27,10 @@ class ReadRelationsIT extends AbstractAppTest {
 	}
 
 	@Test
-	void test2_readRelationNotFound() throws Exception {
+	void test2_readRelationNotFound() {
 
 		setupCall()
-			.withServicePath("/relations/1d2a3bb3-3a38-4d65-9910-79dd9efa06c8")
+			.withServicePath(PATH + "/1d2a3bb3-3a38-4d65-9910-79dd9efa06c8")
 			.withHttpMethod(GET)
 			.withExpectedResponse("response.json")
 			.withExpectedResponseStatus(NOT_FOUND)

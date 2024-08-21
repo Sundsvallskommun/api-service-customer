@@ -39,13 +39,13 @@ class CustomerTest {
 				.withOrganizationName("organizationName1")
 				.withOrganizationNumber("organizationNumber1"));
 
-		final var customer = Customer.create()
+		final var bean = Customer.create()
 			.withCustomerRelations(customerRelations)
 			.withCustomerType(customerType);
 
-		assertThat(customer).isNotNull().hasNoNullFieldsOrProperties();
-		assertThat(customer.getCustomerRelations()).isEqualTo(customerRelations);
-		assertThat(customer.getCustomerType()).isEqualTo(customerType);
+		assertThat(bean).isNotNull().hasNoNullFieldsOrProperties();
+		assertThat(bean.getCustomerRelations()).isEqualTo(customerRelations);
+		assertThat(bean.getCustomerType()).isEqualTo(customerType);
 	}
 
 	@Test

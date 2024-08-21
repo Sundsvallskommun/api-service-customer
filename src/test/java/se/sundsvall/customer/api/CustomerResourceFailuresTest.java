@@ -1,5 +1,6 @@
 package se.sundsvall.customer.api;
 
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -23,6 +24,8 @@ import se.sundsvall.customer.service.CustomerService;
 @ActiveProfiles("junit")
 class CustomerResourceFailuresTest {
 
+	private static final String PATH = "/{municipalityId}/customers/{partyId}";
+
 	@MockBean
 	private CustomerService customerServiceMock;
 
@@ -33,10 +36,11 @@ class CustomerResourceFailuresTest {
 	void getCustomerByPartyIdInvalidPartyId() {
 
 		// Arrange
-		final var partyId = "not-valid";
+		final var municipalityId = "2281";
+		final var partyId = "invalid";
 
 		// Act
-		final var response = webTestClient.get().uri("/customers/{partyId}", partyId)
+		final var response = webTestClient.get().uri(PATH, municipalityId, partyId)
 			.exchange()
 			.expectStatus().isBadRequest()
 			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
@@ -50,6 +54,33 @@ class CustomerResourceFailuresTest {
 		assertThat(response.getViolations())
 			.extracting(Violation::getField, Violation::getMessage)
 			.containsExactly(tuple("getCustomerByPartyId.partyId", "not a valid UUID"));
+
+		// Verifications
+		verifyNoInteractions(customerServiceMock);
+	}
+
+	@Test
+	void getCustomerByPartyIdInvalidMunicipalityIdId() {
+
+		// Arrange
+		final var municipalityId = "invalid";
+		final var partyId = randomUUID().toString();
+
+		// Act
+		final var response = webTestClient.get().uri(PATH, municipalityId, partyId)
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectHeader().contentType(APPLICATION_PROBLEM_JSON)
+			.expectBody(ConstraintViolationProblem.class)
+			.returnResult()
+			.getResponseBody();
+
+		// Assert
+		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
+		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
+		assertThat(response.getViolations())
+			.extracting(Violation::getField, Violation::getMessage)
+			.containsExactly(tuple("getCustomerByPartyId.municipalityId", "not a valid municipality ID"));
 
 		// Verifications
 		verifyNoInteractions(customerServiceMock);

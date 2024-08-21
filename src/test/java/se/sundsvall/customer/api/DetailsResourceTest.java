@@ -31,6 +31,8 @@ import se.sundsvall.customer.service.CustomerService;
 @ActiveProfiles("junit")
 class DetailsResourceTest {
 
+	private static final String PATH = "/{municipalityId}/details";
+
 	@MockBean
 	private CustomerService customerServiceMock;
 
@@ -39,16 +41,18 @@ class DetailsResourceTest {
 
 	@Test
 	void getDetailsByCustomerEngagementOrgIdAndFromDate() {
+
 		// Arrange
+		final var municipalityId = "2281";
 		final var request = new CustomerDetailsRequest()
 			.withCustomerEngagementOrgId("1234567890")
 			.withFromDateTime(OffsetDateTime.now());
 
-		when(customerServiceMock.getCustomerDetails(request)).thenReturn(new CustomerDetailsResponse());
+		when(customerServiceMock.getCustomerDetails(municipalityId, request)).thenReturn(new CustomerDetailsResponse());
 
 		// Act
-		final var response = webTestClient.post().uri("/details")
-			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+		final var response = webTestClient.post().uri(PATH, municipalityId)
+			.contentType(APPLICATION_JSON)
 			.body(fromValue(request))
 			.exchange()
 			.expectStatus().isOk()
@@ -60,12 +64,14 @@ class DetailsResourceTest {
 		// Assert
 		assertThat(response).isNotNull();
 
-		verify(customerServiceMock).getCustomerDetails(request);
+		verify(customerServiceMock).getCustomerDetails(municipalityId, request);
 	}
 
 	@Test
 	void getDetailsByPartyIdAndCustomerEngagementOrgIdAndFromDate() {
+
 		// Arrange
+		final var municipalityId = "2281";
 		final var request = new CustomerDetailsRequest()
 			.withPartyId(List.of(UUID.randomUUID().toString()))
 			.withCustomerEngagementOrgId("1234567890")
@@ -73,10 +79,10 @@ class DetailsResourceTest {
 		final var customerDetailsResponse = CustomerDetailsResponse.create()
 			.withCustomerDetails(List.of(CustomerDetails.create().withPartyId("somePartyId")));
 
-		when(customerServiceMock.getCustomerDetails(request)).thenReturn(customerDetailsResponse);
+		when(customerServiceMock.getCustomerDetails(municipalityId, request)).thenReturn(customerDetailsResponse);
 
 		// Act
-		final var response = webTestClient.post().uri("/details")
+		final var response = webTestClient.post().uri(PATH, municipalityId)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(fromValue(request))
 			.exchange()
@@ -89,22 +95,24 @@ class DetailsResourceTest {
 		// Assert
 		assertThat(response).isNotNull();
 
-		verify(customerServiceMock).getCustomerDetails(request);
+		verify(customerServiceMock).getCustomerDetails(municipalityId, request);
 	}
 
 	@Test
 	void getDetailsByPartyIdAndCustomerEngagementOrgId() {
+
 		// Arrange
+		final var municipalityId = "2281";
 		final var request = new CustomerDetailsRequest()
 			.withPartyId(List.of(UUID.randomUUID().toString()))
 			.withCustomerEngagementOrgId("1234567890");
 		final var customerDetailsResponse = CustomerDetailsResponse.create()
 			.withCustomerDetails(List.of(CustomerDetails.create().withPartyId("somePartyId")));
 
-		when(customerServiceMock.getCustomerDetails(request)).thenReturn(customerDetailsResponse);
+		when(customerServiceMock.getCustomerDetails(municipalityId, request)).thenReturn(customerDetailsResponse);
 
 		// Act
-		final var response = webTestClient.post().uri("/details")
+		final var response = webTestClient.post().uri(PATH, municipalityId)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(fromValue(request))
 			.exchange()
@@ -117,6 +125,6 @@ class DetailsResourceTest {
 		// Assert
 		assertThat(response).isNotNull();
 
-		verify(customerServiceMock).getCustomerDetails(request);
+		verify(customerServiceMock).getCustomerDetails(municipalityId, request);
 	}
 }

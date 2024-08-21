@@ -26,12 +26,13 @@ public class CustomerService {
 		this.dataWarehouseReaderClient = dataWarehouseReaderClient;
 	}
 
-	public Customer getCustomer(String partyId) {
-		return toCustomer(dataWarehouseReaderClient.getCustomerEngagement(partyId));
+	public Customer getCustomer(String municipalityId, String partyId) {
+		return toCustomer(dataWarehouseReaderClient.getCustomerEngagement(municipalityId, partyId));
 	}
 
-	public CustomerDetailsResponse getCustomerDetails(final CustomerDetailsRequest request) {
+	public CustomerDetailsResponse getCustomerDetails(String municipalityId, CustomerDetailsRequest request) {
 		return toCustomerDetailsResponse(dataWarehouseReaderClient.getCustomerDetails(
+			municipalityId,
 			request.getPartyId(),
 			request.getCustomerEngagementOrgId(),
 			// If no date is provided, send nothing

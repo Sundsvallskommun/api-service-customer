@@ -42,19 +42,19 @@ class CustomerRelationTest {
 		final var active = true;
 		final var moveInDate = LocalDate.now();
 
-		final var customerRelation = CustomerRelation.create()
+		final var bean = CustomerRelation.create()
 			.withCustomerNumber(customerId)
 			.withOrganizationName(organizationName)
 			.withOrganizationNumber(organizationNumber)
 			.withActive(active)
 			.withMoveInDate(moveInDate);
 
-		assertThat(customerRelation).isNotNull().hasNoNullFieldsOrProperties();
-		assertThat(customerRelation.getCustomerNumber()).isEqualTo(customerId);
-		assertThat(customerRelation.getOrganizationName()).isEqualTo(organizationName);
-		assertThat(customerRelation.getOrganizationNumber()).isEqualTo(organizationNumber);
-		assertThat(customerRelation.isActive()).isEqualTo(active);
-		assertThat(customerRelation.getMoveInDate()).isEqualTo(moveInDate);
+		assertThat(bean).isNotNull().hasNoNullFieldsOrProperties();
+		assertThat(bean.getCustomerNumber()).isEqualTo(customerId);
+		assertThat(bean.getOrganizationName()).isEqualTo(organizationName);
+		assertThat(bean.getOrganizationNumber()).isEqualTo(organizationNumber);
+		assertThat(bean.isActive()).isEqualTo(active);
+		assertThat(bean.getMoveInDate()).isEqualTo(moveInDate);
 	}
 
 	@Test
