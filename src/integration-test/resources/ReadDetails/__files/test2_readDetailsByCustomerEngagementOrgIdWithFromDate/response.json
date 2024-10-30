@@ -1,38 +1,30 @@
 {
-	"customerDetails": [
-		{
-			"partyId": "string",
-			"customerNumber": "691071",
-			"customerName": "Test Testorsson",
-			"street": "Testvägen 12",
-			"postalCode": "12345",
-			"city": "Sundsvall",
-			"careOf": "CareOf",
-			"phoneNumbers": [
-				"076-1234567"
-			],
-			"emails": [
-				"test@sundsvall.se"
-			],
-			"customerCategoryID": 1,
-			"customerCategoryDescription": "Privat",
-			"customerChangedFlg": true,
-			"installedChangedFlg": true,
-			"customerEngagementOrgId": "5565027223",
-			"customerEngagementOrgName": "Sundsvall Elnät",
-			"active": false,
-			"moveInDate": "2095-01-01"
-		}
-	],
 	"_meta": {
-		"page": 0,
+		"totalRecords": 1,
+		"sortDirection": "ASC",
 		"limit": 0,
 		"count": 1,
-		"totalRecords": 1,
 		"totalPages": 1,
-		"sortBy": [
-			"string"
-		],
-		"sortDirection": "ASC"
-	}
+		"sortBy": ["string"],
+		"page": 0
+	},
+	"customerDetails": [{
+		"customerEngagementOrgName": "Sundsvall Elnät",
+		"installedChangedFlg": true,
+		"city": "Sundsvall",
+		"postalCode": "12345",
+		"active": false,
+		"customerNumber": "691071",
+		"customerCategoryID": 1,
+		"customerChangedFlg": true,
+		"customerName": "Test Testorsson",
+		"phoneNumbers": ["076-1234567"],
+		"customerEngagementOrgId": "5565027223",
+		"emails": ["test@sundsvall.se"],
+		"careOf": "CareOf",
+		"customerCategoryDescription": "Privat",
+		"moveInDate": "2095-01-01",
+		"street": "Testvägen 12",
+		"partyId": "string"
+	}]
 }

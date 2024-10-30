@@ -1,55 +1,41 @@
 {
-	"name": "api-datawarehousereader-read-details",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-datawarehousereader/2281/customer/details",
-		"queryParameters": {
-			"customerEngagementOrgId": {
-				"equalTo": "1234567890"
-			}
-		}
+		"queryParameters": {"customerEngagementOrgId": {"equalTo": "1234567890"}},
+		"urlPath": "/api-datawarehousereader/2281/customer/details"
 	},
 	"response": {
-		"headers": {
-			"Content-Type": "application/json"
-		},
-		"status": 200,
+		"headers": {"Content-Type": "application/json"},
 		"jsonBody": {
-			"customerDetails": [
-				{
-					"partyId": "string",
-					"customerNumber": "691071",
-					"customerName": "Test Testorsson",
-					"street": "Testvägen 12",
-					"postalCode": "12345",
-					"city": "Sundsvall",
-					"careOf": "CareOf",
-					"phoneNumbers": [
-						"076-1234567"
-					],
-					"emails": [
-						"test@sundsvall.se"
-					],
-					"customerCategoryID": 1,
-					"customerCategoryDescription": "Privat",
-					"customerChangedFlg": true,
-					"installedChangedFlg": true,
-					"customerEngagementOrgId": "5565027223",
-					"customerEngagementOrgName": "Sundsvall Elnät",
-					"active": true
-				}
-			],
 			"_meta": {
-				"page": 1,
+				"totalRecords": 1,
+				"sortDirection": "ASC",
 				"limit": 100,
 				"count": 1,
-				"totalRecords": 1,
 				"totalPages": 1,
-				"sortBy": [
-					"string"
-				],
-				"sortDirection": "ASC"
-			}
-		}
-	}
+				"sortBy": ["string"],
+				"page": 1
+			},
+			"customerDetails": [{
+				"customerEngagementOrgName": "Sundsvall Elnät",
+				"installedChangedFlg": true,
+				"city": "Sundsvall",
+				"postalCode": "12345",
+				"active": true,
+				"customerNumber": "691071",
+				"customerCategoryID": 1,
+				"customerChangedFlg": true,
+				"customerName": "Test Testorsson",
+				"phoneNumbers": ["076-1234567"],
+				"customerEngagementOrgId": "5565027223",
+				"emails": ["test@sundsvall.se"],
+				"careOf": "CareOf",
+				"customerCategoryDescription": "Privat",
+				"street": "Testvägen 12",
+				"partyId": "string"
+			}]
+		},
+		"status": 200
+	},
+	"name": "api-datawarehousereader-read-details"
 }

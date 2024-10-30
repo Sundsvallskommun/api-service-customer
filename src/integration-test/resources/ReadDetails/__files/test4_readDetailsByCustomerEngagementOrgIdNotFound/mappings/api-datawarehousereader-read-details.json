@@ -1,32 +1,24 @@
 {
-	"name": "api-datawarehousereader-read-details",
 	"request": {
 		"method": "GET",
-		"urlPath": "/api-datawarehousereader/2281/customer/details",
-		"queryParameters": {
-			"customerEngagementOrgId": {
-				"equalTo": "1234567890"
-			}
-		}
+		"queryParameters": {"customerEngagementOrgId": {"equalTo": "1234567890"}},
+		"urlPath": "/api-datawarehousereader/2281/customer/details"
 	},
 	"response": {
-		"headers": {
-			"Content-Type": "application/json"
-		},
-		"status": 200,
+		"headers": {"Content-Type": "application/json"},
 		"jsonBody": {
-			"customerDetails": [],
 			"_meta": {
-				"page": 1,
+				"totalRecords": 0,
+				"sortDirection": "ASC",
 				"limit": 100,
 				"count": 0,
-				"totalRecords": 0,
 				"totalPages": 0,
-				"sortBy": [
-					"propertyName"
-				],
-				"sortDirection": "ASC"
-			}
-		}
-	}
+				"sortBy": ["propertyName"],
+				"page": 1
+			},
+			"customerDetails": []
+		},
+		"status": 200
+	},
+	"name": "api-datawarehousereader-read-details"
 }

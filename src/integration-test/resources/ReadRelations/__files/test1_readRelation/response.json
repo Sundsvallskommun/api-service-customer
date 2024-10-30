@@ -2,17 +2,17 @@
 	"customerType": "PRIVATE",
 	"customerRelations": [
 		{
-			"customerNumber": "691071",
-			"organizationNumber": "556478-6647",
 			"organizationName": "Sundsvall Energi AB",
-			"active": true
+			"organizationNumber": "556478-6647",
+			"active": true,
+			"customerNumber": "691071"
 		},
 		{
-			"customerNumber": "1337",
-			"organizationNumber": "556661-8756",
 			"organizationName": "MittSverige Vatten och Avfall AB",
+			"moveInDate": "2095-01-01",
+			"organizationNumber": "556661-8756",
 			"active": false,
-			"moveInDate": "2095-01-01"
+			"customerNumber": "1337"
 		}
 	]
 }
