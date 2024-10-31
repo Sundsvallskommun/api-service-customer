@@ -48,7 +48,9 @@ public class Customer {
 	}
 
 	@Override
-	public int hashCode() { return Objects.hash(customerRelations, customerType); }
+	public int hashCode() {
+		return Objects.hash(customerRelations, customerType);
+	}
 
 	@Override
 	public boolean equals(Object obj) {

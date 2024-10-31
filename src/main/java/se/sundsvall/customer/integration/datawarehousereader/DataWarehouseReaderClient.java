@@ -19,12 +19,16 @@ import se.sundsvall.customer.integration.datawarehousereader.configuration.DataW
 @FeignClient(name = CLIENT_ID, url = "${integration.datawarehousereader.url}", configuration = DataWarehouseReaderConfiguration.class)
 public interface DataWarehouseReaderClient {
 
-	@GetMapping(path = "/{municipalityId}/customer/engagements", produces = { APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE })
+	@GetMapping(path = "/{municipalityId}/customer/engagements", produces = {
+		APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE
+	})
 	CustomerEngagementResponse getCustomerEngagement(
 		@PathVariable("municipalityId") String municipalityId,
 		@RequestParam(value = "partyId") String partyId);
 
-	@GetMapping(path = "/{municipalityId}/customer/details", produces = { APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE })
+	@GetMapping(path = "/{municipalityId}/customer/details", produces = {
+		APPLICATION_JSON_VALUE, APPLICATION_PROBLEM_JSON_VALUE
+	})
 	CustomerDetailsResponse getCustomerDetails(
 		@PathVariable("municipalityId") String municipalityId,
 		@RequestParam(value = "partyId") List<String> partyId,
