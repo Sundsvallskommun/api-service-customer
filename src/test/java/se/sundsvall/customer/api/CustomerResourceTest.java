@@ -23,7 +23,7 @@ class CustomerResourceTest {
 
 	private static final String PATH = "/{municipalityId}/customers/{partyId}";
 
-	@MockBean
+	@MockitoBean
 	private CustomerService customerServiceMock;
 
 	@Autowired

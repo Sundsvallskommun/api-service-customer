@@ -37,7 +37,7 @@ class DetailsResourceFailureTest {
 
 	private static final String PATH = "/{municipalityId}/details";
 
-	@MockBean
+	@MockitoBean
 	private CustomerService customerServiceMock;
 
 	@Autowired

@@ -23,7 +23,7 @@ class RelationResourceTest {
 
 	private static final String PATH = "/{municipalityId}/relations/{partyId}";
 
-	@MockBean
+	@MockitoBean
 	private CustomerService customerServiceMock;
 
 	@Autowired

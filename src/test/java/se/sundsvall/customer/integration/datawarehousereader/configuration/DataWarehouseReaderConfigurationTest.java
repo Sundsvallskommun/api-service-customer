@@ -35,7 +35,7 @@ class DataWarehouseReaderConfigurationTest {
 	@Mock
 	private DataWarehouseReaderProperties propertiesMock;
 
-	@Spy
+	@MockitoSpyBean
 	private FeignMultiCustomizer feignMultiCustomizerSpy;
 
 	@Captor
