@@ -2,13 +2,19 @@
 	"request": {
 		"method": "GET",
 		"queryParameters": {
-			"partyId": {"equalTo": "9f395f51-b5ed-401b-b700-ef70cbb15d82"},
-			"customerEngagementOrgId": {"equalTo": "5565027223"}
+			"partyId": {
+				"equalTo": "9f395f51-b5ed-401b-b700-ef70cbb15d82"
+			},
+			"customerEngagementOrgId": {
+				"equalTo": "5565027223"
+			}
 		},
 		"urlPath": "/api-datawarehousereader/2281/customer/details"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/json"},
+		"headers": {
+			"Content-Type": "application/json"
+		},
 		"jsonBody": {
 			"_meta": {
 				"totalRecords": 1,
@@ -16,32 +22,36 @@
 				"limit": 100,
 				"count": 1,
 				"totalPages": 1,
-				"sortBy": ["uuid"],
+				"sortBy": [
+					"uuid"
+				],
 				"page": 1
 			},
-			"customerDetails": [{
-				"customerEngagementOrgName": "Sundsvall Elnät",
-				"installedChangedFlg": true,
-				"city": "Sundsvall",
-				"postalCode": "85234",
-				"active": true,
-				"customerNumber": "123457",
-				"customerCategoryID": 1,
-				"customerChangedFlg": false,
-				"customerName": "Test Testorsson",
-				"phoneNumbers": [
-					"+46761234567",
-					"+46761234567"
-				],
-				"customerEngagementOrgId": "5565027223",
-				"emails": [
-					"test@sundsvall.com",
-					"test2@sundsvall.com"
-				],
-				"customerCategoryDescription": "Privatperson",
-				"street": "Testvägen21",
-				"partyId": "9f395f51-b5ed-401b-b700-ef70cbb15d82"
-			}]
+			"customerDetails": [
+				{
+					"customerEngagementOrgName": "Sundsvall Elnät",
+					"installedChangedFlg": true,
+					"city": "Sundsvall",
+					"postalCode": "85234",
+					"active": true,
+					"customerNumber": "123457",
+					"customerCategoryID": 1,
+					"customerChangedFlg": false,
+					"customerName": "Test Testorsson",
+					"phoneNumbers": [
+						"+46761234567",
+						"+46761234567"
+					],
+					"customerEngagementOrgId": "5565027223",
+					"emails": [
+						"test@sundsvall.com",
+						"test2@sundsvall.com"
+					],
+					"customerCategoryDescription": "Privatperson",
+					"street": "Testvägen21",
+					"partyId": "9f395f51-b5ed-401b-b700-ef70cbb15d82"
+				}
+			]
 		},
 		"status": 200
 	},

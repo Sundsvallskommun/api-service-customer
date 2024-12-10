@@ -1,11 +1,17 @@
 {
 	"request": {
 		"method": "GET",
-		"queryParameters": {"partyId": {"equalTo": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105"}},
+		"queryParameters": {
+			"partyId": {
+				"equalTo": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105"
+			}
+		},
 		"urlPath": "/api-datawarehousereader/2281/customer/engagements"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/json"},
+		"headers": {
+			"Content-Type": "application/json"
+		},
 		"jsonBody": {
 			"customerEngagements": [
 				{

@@ -1,20 +1,28 @@
 {
 	"request": {
 		"method": "GET",
-		"queryParameters": {"partyId": {"equalTo": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105"}},
+		"queryParameters": {
+			"partyId": {
+				"equalTo": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105"
+			}
+		},
 		"urlPath": "/api-datawarehousereader/2281/customer/engagements"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/json"},
+		"headers": {
+			"Content-Type": "application/json"
+		},
 		"jsonBody": {
-			"customerEngagements": [{
-				"customerType": "Private",
-				"organizationName": "Sundsvall Energi AB",
-				"organizationNumber": "556478-6647",
-				"active": true,
-				"partyId": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105",
-				"customerNumber": "691071"
-			}],
+			"customerEngagements": [
+				{
+					"customerType": "Private",
+					"organizationName": "Sundsvall Energi AB",
+					"organizationNumber": "556478-6647",
+					"active": true,
+					"partyId": "3b7a5955-f481-42bd-a2b3-6ef8bd76b105",
+					"customerNumber": "691071"
+				}
+			],
 			"_meta": {
 				"totalRecords": 1,
 				"limit": 100,

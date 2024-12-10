@@ -2,11 +2,10 @@ package se.sundsvall.customer.api.model;
 
 import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
 
-import java.util.List;
-import java.util.Objects;
-
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
+import java.util.Objects;
 
 @Schema(description = "Customer model")
 public class Customer {

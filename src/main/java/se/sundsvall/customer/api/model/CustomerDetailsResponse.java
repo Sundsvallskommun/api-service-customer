@@ -1,14 +1,13 @@
 package se.sundsvall.customer.api.model;
 
+import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
-import se.sundsvall.dept44.models.api.paging.PagingAndSortingMetaData;
-
 import java.util.List;
 import java.util.Objects;
-
-import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
+import se.sundsvall.dept44.models.api.paging.PagingAndSortingMetaData;
 
 @Schema(description = "Customer details response model")
 public class CustomerDetailsResponse {
