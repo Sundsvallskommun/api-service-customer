@@ -8,9 +8,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.sundsvall.customer.service.CustomerService.DATE_TIME_FORMAT;
 
+import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
+import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
+import generated.se.sundsvall.datawarehousereader.Direction;
 import java.time.OffsetDateTime;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,10 +20,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 import org.zalando.problem.ThrowableProblem;
-
-import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
-import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
-import generated.se.sundsvall.datawarehousereader.Direction;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
 

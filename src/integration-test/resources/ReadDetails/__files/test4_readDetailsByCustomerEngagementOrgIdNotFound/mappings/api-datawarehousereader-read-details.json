@@ -1,11 +1,17 @@
 {
 	"request": {
 		"method": "GET",
-		"queryParameters": {"customerEngagementOrgId": {"equalTo": "1234567890"}},
+		"queryParameters": {
+			"customerEngagementOrgId": {
+				"equalTo": "1234567890"
+			}
+		},
 		"urlPath": "/api-datawarehousereader/2281/customer/details"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/json"},
+		"headers": {
+			"Content-Type": "application/json"
+		},
 		"jsonBody": {
 			"_meta": {
 				"totalRecords": 0,
@@ -13,7 +19,9 @@
 				"limit": 100,
 				"count": 0,
 				"totalPages": 0,
-				"sortBy": ["propertyName"],
+				"sortBy": [
+					"propertyName"
+				],
 				"page": 1
 			},
 			"customerDetails": []
