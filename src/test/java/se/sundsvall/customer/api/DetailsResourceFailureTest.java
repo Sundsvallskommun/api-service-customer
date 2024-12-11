@@ -16,19 +16,17 @@ import static org.zalando.problem.Status.BAD_REQUEST;
 
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.zalando.problem.Problem;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 import org.zalando.problem.violations.Violation;
-
 import se.sundsvall.customer.Application;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.service.CustomerService;
@@ -39,7 +37,7 @@ class DetailsResourceFailureTest {
 
 	private static final String PATH = "/{municipalityId}/details";
 
-	@MockBean
+	@MockitoBean
 	private CustomerService customerServiceMock;
 
 	@Autowired

@@ -2,12 +2,10 @@ package se.sundsvall.customer.api.model;
 
 import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 import java.util.Objects;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Customer relation model")
 public class CustomerRelation {

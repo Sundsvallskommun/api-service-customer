@@ -10,10 +10,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
 import se.sundsvall.customer.Application;
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.service.CustomerService;
@@ -24,7 +23,7 @@ class CustomerResourceTest {
 
 	private static final String PATH = "/{municipalityId}/customers/{partyId}";
 
-	@MockBean
+	@MockitoBean
 	private CustomerService customerServiceMock;
 
 	@Autowired

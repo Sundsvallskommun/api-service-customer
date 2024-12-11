@@ -4,12 +4,10 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
 import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomerDetailsResponse;
 
+import generated.se.sundsvall.datawarehousereader.Direction;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
-import generated.se.sundsvall.datawarehousereader.Direction;
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.api.model.CustomerDetailsResponse;

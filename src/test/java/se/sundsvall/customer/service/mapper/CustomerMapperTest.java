@@ -5,19 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static se.sundsvall.customer.api.model.CustomerType.ENTERPRISE;
 import static se.sundsvall.customer.api.model.CustomerType.PRIVATE;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-import org.zalando.problem.ThrowableProblem;
-
 import generated.se.sundsvall.datawarehousereader.CustomerDetails;
 import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
 import generated.se.sundsvall.datawarehousereader.Direction;
 import generated.se.sundsvall.datawarehousereader.PagingAndSortingMetaData;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.zalando.problem.ThrowableProblem;
 import se.sundsvall.customer.api.model.CustomerRelation;
 import se.sundsvall.customer.api.model.CustomerType;
 
