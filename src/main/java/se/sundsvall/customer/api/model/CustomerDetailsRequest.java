@@ -4,6 +4,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +18,7 @@ public class CustomerDetailsRequest extends AbstractParameterPagingAndSortingBas
 	@ArraySchema(schema = @Schema(description = "List of Party-IDs"))
 	private List<@ValidUuid String> partyId;
 
+	@NotEmpty
 	@ValidOrganizationNumber
 	@Schema(description = "Organization id for customer engagements", requiredMode = REQUIRED)
 	private String customerEngagementOrgId;

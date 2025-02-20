@@ -138,21 +138,19 @@ class DetailsResourceFailureTest {
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
 					.containsExactly(tuple("partyId[0]", "not a valid UUID"));
-			} else if (request.getCustomerEngagementOrgId() == null) {
+			} else if (request.getCustomerEngagementOrgId() == null || request.getCustomerEngagementOrgId().isBlank()) {
 				// We have constraint violations when customerEngagementOrgId is missing
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
 					.containsExactlyInAnyOrder(
-						tuple("getCustomerDetails.request", "'customerEngagementOrgId' must be provided"));
+						tuple("customerEngagementOrgId", "must match the regular expression ^([1235789][\\d][2-9]\\d{7})$"),
+						tuple("customerEngagementOrgId", "must not be empty"));
 			} else {
 				// We have constraint violations on customerEngagementOrgId
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::getField, Violation::getMessage)
 					.containsExactly(tuple("customerEngagementOrgId", "must match the regular expression ^([1235789][\\d][2-9]\\d{7})$"));
 			}
-		} else {
-			assertThat(response.getTitle()).isEqualTo("Bad Request");
-			assertThat(response.getDetail()).isEqualTo("'customerEngagementOrgId' must be provided");
 		}
 
 		verifyNoInteractions(customerServiceMock);
@@ -164,6 +162,8 @@ class DetailsResourceFailureTest {
 			new CustomerDetailsRequestForTest("customerEngagementOrgId is set but empty")
 				.asConstraintViolation()
 				.withCustomerEngagementOrgId(""),
+			new CustomerDetailsRequestForTest("customerEngagementOrgId is not set")
+				.asConstraintViolation(),
 			new CustomerDetailsRequestForTest("partyId is set but invalid")
 				.asConstraintViolation()
 				.withCustomerEngagementOrgId("1234567890")
