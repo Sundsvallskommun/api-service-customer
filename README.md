@@ -90,20 +90,20 @@ server:
 - **External Service URLs**
 
 ```yaml
-  integration:
-    datawarehousereader:
-      url: <service-url>
-  spring:
-    security:
-      oauth2:
-        client:
-          provider:
-            datawarehousereader:
-              token-uri: <token-url>
-          registration:
-            datawarehousereader:
-              authorization-grant-type: client_credentials
-              provider: datawarehousereader
+integration:
+  datawarehousereader:
+    url: <service-url>
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          datawarehousereader:
+            token-uri: <token-url>
+        registration:
+          datawarehousereader:
+            authorization-grant-type: client_credentials
+            provider: datawarehousereader
 ```
 
 ### Additional Notes
