@@ -1,36 +1,36 @@
 openapi: 3.0.1
 info:
   title: api-customer
-  contact: {}
+  contact: { }
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
   version: "4.0"
 servers:
-- url: http://localhost:8080
-  description: Generated server url
+  - url: http://localhost:62517
+    description: Generated server url
 tags:
-- name: Details
-  description: Details operations
-- name: Customer
-  description: Customer operations
-- name: Relation
-  description: Relations operations
+  - name: Details
+    description: Details operations
+  - name: Customer
+    description: Customer operations
+  - name: Relation
+    description: Relations operations
 paths:
   /{municipalityId}/details:
     post:
       tags:
-      - Details
+        - Details
       summary: Get customer by party-ID or organization id for customer engagements
       operationId: getCustomerDetails
       parameters:
-      - name: municipalityId
-        in: path
-        description: Municipality id
-        required: true
-        schema:
-          type: string
-        example: 2281
+        - name: municipalityId
+          in: path
+          description: Municipality id
+          required: true
+          schema:
+            type: string
+          example: 2281
       requestBody:
         content:
           application/json:
@@ -38,24 +38,6 @@ paths:
               $ref: "#/components/schemas/CustomerDetailsRequest"
         required: true
       responses:
-        "500":
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "502":
-          description: Bad Gateway
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful Operation
           content:
@@ -71,48 +53,48 @@ paths:
             application/problem+json:
               schema:
                 oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
+                  - $ref: "#/components/schemas/Problem"
+                  - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "502":
+          description: Bad Gateway
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
   /{municipalityId}/relations/{partyId}:
     get:
       tags:
-      - Relation
+        - Relation
       summary: Get customer by party-ID
       operationId: getRelationByPartyId
       parameters:
-      - name: municipalityId
-        in: path
-        description: Municipality id
-        required: true
-        schema:
-          type: string
-        example: 2281
-      - name: partyId
-        in: path
-        description: Party-ID
-        required: true
-        schema:
-          type: string
-        example: 81471222-5798-11e9-ae24-57fa13b361e1
+        - name: municipalityId
+          in: path
+          description: Municipality id
+          required: true
+          schema:
+            type: string
+          example: 2281
+        - name: partyId
+          in: path
+          description: Party-ID
+          required: true
+          schema:
+            type: string
+          example: 81471222-5798-11e9-ae24-57fa13b361e1
       responses:
-        "500":
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "502":
-          description: Bad Gateway
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful Operation
           content:
@@ -128,48 +110,48 @@ paths:
             application/problem+json:
               schema:
                 oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
+                  - $ref: "#/components/schemas/Problem"
+                  - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "502":
+          description: Bad Gateway
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
   /{municipalityId}/customers/{partyId}:
     get:
       tags:
-      - Customer
+        - Customer
       summary: Get customer by party-ID
       operationId: getCustomerByPartyId
       parameters:
-      - name: municipalityId
-        in: path
-        description: Municipality id
-        required: true
-        schema:
-          type: string
-        example: 2281
-      - name: partyId
-        in: path
-        description: Party-ID
-        required: true
-        schema:
-          type: string
-        example: 81471222-5798-11e9-ae24-57fa13b361e1
+        - name: municipalityId
+          in: path
+          description: Municipality id
+          required: true
+          schema:
+            type: string
+          example: 2281
+        - name: partyId
+          in: path
+          description: Party-ID
+          required: true
+          schema:
+            type: string
+          example: 81471222-5798-11e9-ae24-57fa13b361e1
       responses:
-        "500":
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "502":
-          description: Bad Gateway
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful Operation
           content:
@@ -185,13 +167,31 @@ paths:
             application/problem+json:
               schema:
                 oneOf:
-                - $ref: "#/components/schemas/Problem"
-                - $ref: "#/components/schemas/ConstraintViolationProblem"
+                  - $ref: "#/components/schemas/Problem"
+                  - $ref: "#/components/schemas/ConstraintViolationProblem"
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "502":
+          description: Bad Gateway
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
       deprecated: true
   /api-docs:
     get:
       tags:
-      - API
+        - API
       summary: OpenAPI
       operationId: getApiDocs
       responses:
@@ -206,55 +206,6 @@ paths:
       x-wso2-mutual-ssl: Optional
 components:
   schemas:
-    CustomerDetailsRequest:
-      required:
-      - customerEngagementOrgId
-      type: object
-      properties:
-        page:
-          minimum: 1
-          type: integer
-          description: Page number
-          format: int32
-          example: 1
-          default: 1
-        limit:
-          minimum: 1
-          type: integer
-          description: Result size per page. Maximum allowed value is dynamically
-            configured
-          format: int32
-          example: 15
-        sortBy:
-          type: array
-          items:
-            type: string
-            description: The properties to sort on
-            example: propertyName
-        sortDirection:
-          $ref: "#/components/schemas/Direction"
-        partyId:
-          type: array
-          items:
-            type: string
-            description: List of Party-IDs
-        customerEngagementOrgId:
-          type: string
-          description: Organization id for customer engagements
-        fromDateTime:
-          type: string
-          description: Earliest date and time for when to search for change from.
-            Format is yyyy-MM-dd'T'HH:mm:ss.SSSXXX
-          format: date-time
-          example: 2000-10-31T01:30:00-05:00
-      description: Customer details request
-    Direction:
-      type: string
-      description: The sort order direction
-      example: ASC
-      enum:
-      - ASC
-      - DESC
     Problem:
       type: object
       properties:
@@ -270,9 +221,9 @@ components:
             type: object
         status:
           $ref: "#/components/schemas/StatusType"
-        detail:
-          type: string
         title:
+          type: string
+        detail:
           type: string
     StatusType:
       type: object
@@ -405,9 +356,9 @@ components:
             type: object
         status:
           $ref: "#/components/schemas/StatusType"
-        detail:
-          type: string
         title:
+          type: string
+        detail:
           type: string
         suppressed:
           type: array
@@ -449,6 +400,56 @@ components:
           type: string
         message:
           type: string
+    CustomerDetailsRequest:
+      required:
+        - customerEngagementOrgId
+      type: object
+      properties:
+        page:
+          minimum: 1
+          type: integer
+          description: Page number
+          format: int32
+          example: 1
+          default: 1
+        limit:
+          minimum: 1
+          type: integer
+          description: Result size per page. Maximum allowed value is dynamically
+            configured
+          format: int32
+          example: 15
+        sortBy:
+          type: array
+          items:
+            type: string
+            description: The properties to sort on
+            example: propertyName
+        sortDirection:
+          $ref: "#/components/schemas/Direction"
+        partyId:
+          type: array
+          items:
+            type: string
+            description: List of Party-IDs
+        customerEngagementOrgId:
+          minLength: 1
+          type: string
+          description: Organization id for customer engagements
+        fromDateTime:
+          type: string
+          description: Earliest date and time for when to search for change from.
+            Format is yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+          format: date-time
+          example: 2000-10-31T01:30:00-05:00
+      description: Customer details request
+    Direction:
+      type: string
+      description: The sort order direction
+      example: ASC
+      enum:
+        - ASC
+        - DESC
     CustomerDetails:
       type: object
       properties:
@@ -651,6 +652,6 @@ components:
       description: Customer type model
       readOnly: true
       enum:
-      - PRIVATE
-      - ENTERPRISE
-  securitySchemes: {}
+        - PRIVATE
+        - ENTERPRISE
+  securitySchemes: { }
