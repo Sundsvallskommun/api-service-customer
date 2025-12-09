@@ -12,52 +12,52 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Schema(description = "Customer details model")
 public class CustomerDetails {
 
-	@Schema(description = "Company with which the customer has an engagement (organization number)", example = "5591962591", accessMode = READ_ONLY)
+	@Schema(description = "Company with which the customer has an engagement (organization number)", examples = "5591962591", accessMode = READ_ONLY)
 	private String customerEngagementOrgId;
 
-	@Schema(description = "Name of the company the customer has an engagement with", example = "Sundsvall Elnät", accessMode = READ_ONLY)
+	@Schema(description = "Name of the company the customer has an engagement with", examples = "Sundsvall Elnät", accessMode = READ_ONLY)
 	private String customerEngagementOrgName;
 
-	@Schema(description = "PartyId (e.g. a personId or an organizationId)", example = "81471222-5798-11e9-ae24-57fa13b361e1", accessMode = READ_ONLY)
+	@Schema(description = "PartyId (e.g. a personId or an organizationId)", examples = "81471222-5798-11e9-ae24-57fa13b361e1", accessMode = READ_ONLY)
 	private String partyId;
 
-	@Schema(description = "Customer number", example = "39195", accessMode = READ_ONLY)
+	@Schema(description = "Customer number", examples = "39195", accessMode = READ_ONLY)
 	private String customerNumber;
 
-	@Schema(description = "Customer name", example = "Sven Svensson", accessMode = READ_ONLY)
+	@Schema(description = "Customer name", examples = "Sven Svensson", accessMode = READ_ONLY)
 	private String customerName;
 
-	@Schema(description = "Street", example = "Storgatan 44", accessMode = READ_ONLY)
+	@Schema(description = "Street", examples = "Storgatan 44", accessMode = READ_ONLY)
 	private String street;
 
-	@Schema(description = "Postal code", example = "85230", accessMode = READ_ONLY)
+	@Schema(description = "Postal code", examples = "85230", accessMode = READ_ONLY)
 	private String postalCode;
 
-	@Schema(description = "City", example = "Sundsvall", accessMode = READ_ONLY)
+	@Schema(description = "City", examples = "Sundsvall", accessMode = READ_ONLY)
 	private String city;
 
-	@Schema(description = "Care of address", example = "Agatha Malm", accessMode = READ_ONLY)
+	@Schema(description = "Care of address", examples = "Agatha Malm", accessMode = READ_ONLY)
 	private String careOf;
 
-	@ArraySchema(schema = @Schema(description = "List of phoneNumbers", example = "076-1234567", accessMode = READ_ONLY))
+	@ArraySchema(schema = @Schema(description = "List of phoneNumbers", examples = "076-1234567", accessMode = READ_ONLY))
 	private List<String> phoneNumbers;
 
-	@ArraySchema(schema = @Schema(description = "List of emailAddresses", example = "test@test.se", accessMode = READ_ONLY))
+	@ArraySchema(schema = @Schema(description = "List of emailAddresses", examples = "test@test.se", accessMode = READ_ONLY))
 	private List<String> emails;
 
-	@Schema(description = "Customer category ID", example = "1", accessMode = READ_ONLY)
+	@Schema(description = "Customer category ID", examples = "1", accessMode = READ_ONLY)
 	private int customerCategoryID;
 
-	@Schema(description = "Customer category description", example = "Privat", accessMode = READ_ONLY)
+	@Schema(description = "Customer category description", examples = "Privat", accessMode = READ_ONLY)
 	private String customerCategoryDescription;
 
-	@Schema(description = "Indicates if customer details have changed since the search date", example = "PRIVATE", accessMode = READ_ONLY)
+	@Schema(description = "Indicates if customer details have changed since the search date", examples = "PRIVATE", accessMode = READ_ONLY)
 	private boolean customerChangedFlg;
 
-	@Schema(description = "Indicates if placement and/or equipment details have changed since the search date", example = "true", accessMode = READ_ONLY)
+	@Schema(description = "Indicates if placement and/or equipment details have changed since the search date", examples = "true", accessMode = READ_ONLY)
 	private boolean installedChangedFlg;
 
-	@Schema(description = "Indicates customer status, if not active then the moveInDate holds information on when the customer will be activated", example = "true", accessMode = READ_ONLY)
+	@Schema(description = "Indicates customer status, if not active then the moveInDate holds information on when the customer will be activated", examples = "true", accessMode = READ_ONLY)
 	private boolean active;
 
 	@Schema(description = "The prospective customer's move-in date", accessMode = READ_ONLY)

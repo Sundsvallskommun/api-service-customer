@@ -23,7 +23,7 @@ public class CustomerDetailsRequest extends AbstractParameterPagingAndSortingBas
 	@Schema(description = "Organization id for customer engagements", requiredMode = REQUIRED)
 	private String customerEngagementOrgId;
 
-	@Schema(description = "Earliest date and time for when to search for change from. Format is yyyy-MM-dd'T'HH:mm:ss.SSSXXX", example = "2000-10-31T01:30:00.000-05:00")
+	@Schema(description = "Earliest date and time for when to search for change from. Format is yyyy-MM-dd'T'HH:mm:ss.SSSXXX", examples = "2000-10-31T01:30:00.000-05:00")
 	private OffsetDateTime fromDateTime;
 
 	public List<String> getPartyId() {
