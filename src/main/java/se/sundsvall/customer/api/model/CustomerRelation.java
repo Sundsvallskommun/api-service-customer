@@ -10,16 +10,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Schema(description = "Customer relation model")
 public class CustomerRelation {
 
-	@Schema(description = "Customer number", example = "10007", accessMode = READ_ONLY)
+	@Schema(description = "Customer number", examples = "10007", accessMode = READ_ONLY)
 	private String customerNumber;
 
-	@Schema(description = "Organization number", example = "5565027223", accessMode = READ_ONLY)
+	@Schema(description = "Organization number", examples = "5565027223", accessMode = READ_ONLY)
 	private String organizationNumber;
 
-	@Schema(description = "Organization name", example = "Sundsvall Elnät", accessMode = READ_ONLY)
+	@Schema(description = "Organization name", examples = "Sundsvall Elnät", accessMode = READ_ONLY)
 	private String organizationName;
 
-	@Schema(description = "Indicates customer status, if not active then the moveInDate holds information on when the customer will be activated", example = "true", accessMode = READ_ONLY)
+	@Schema(description = "Indicates customer status, if not active then the moveInDate holds information on when the customer will be activated", examples = "true", accessMode = READ_ONLY)
 	private boolean active;
 
 	@Schema(description = "The prospective customer's move-in date", accessMode = READ_ONLY)
