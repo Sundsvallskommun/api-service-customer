@@ -1,8 +1,5 @@
 package se.sundsvall.customer.integration.datawarehousereader;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static se.sundsvall.customer.integration.datawarehousereader.configuration.DataWarehouseReaderConfiguration.CLIENT_ID;
-
 import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
 import generated.se.sundsvall.datawarehousereader.Direction;
@@ -13,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.sundsvall.customer.integration.datawarehousereader.configuration.DataWarehouseReaderConfiguration;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static se.sundsvall.customer.integration.datawarehousereader.configuration.DataWarehouseReaderConfiguration.CLIENT_ID;
 
 @FeignClient(name = CLIENT_ID, url = "${integration.datawarehousereader.url}", configuration = DataWarehouseReaderConfiguration.class)
 @CircuitBreaker(name = CLIENT_ID)

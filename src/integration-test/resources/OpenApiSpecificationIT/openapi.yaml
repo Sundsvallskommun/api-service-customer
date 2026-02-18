@@ -405,25 +405,29 @@ components:
           format: int32
           default: 1
           description: Page number
-          example: 1
+          examples:
+            - "1"
           minimum: 1
         limit:
           type: integer
           format: int32
           description: Result size per page. Maximum allowed value is dynamically
             configured
-          example: 15
+          examples:
+            - "15"
           minimum: 1
         sortBy:
           type: array
           items:
             type: string
             description: The properties to sort on
-            example: propertyName
+            examples:
+              - propertyName
         sortDirection:
           $ref: "#/components/schemas/Direction"
           description: The sort order direction
-          example: ASC
+          examples:
+            - ASC
         partyId:
           type: array
           items:
@@ -584,44 +588,51 @@ components:
           type: integer
           format: int32
           description: Current page
-          example: 5
+          examples:
+            - "5"
           readOnly: true
         limit:
           type: integer
           format: int32
           description: Displayed objects per page
-          example: 20
+          examples:
+            - "20"
           readOnly: true
         count:
           type: integer
           format: int32
           description: Displayed objects on current page
-          example: 13
+          examples:
+            - "13"
           readOnly: true
         totalRecords:
           type: integer
           format: int64
           description: Total amount of hits based on provided search parameters
-          example: 98
+          examples:
+            - "98"
           readOnly: true
         totalPages:
           type: integer
           format: int32
           description: Total amount of pages based on provided search parameters
-          example: 23
+          examples:
+            - "23"
           readOnly: true
         sortBy:
           type: array
           items:
             type: string
             description: The properties to sort by
-            example: property
+            examples:
+              - property
             readOnly: true
           readOnly: true
         sortDirection:
           $ref: "#/components/schemas/Direction"
           description: The sort order direction
-          example: ASC
+          examples:
+            - ASC
     Customer:
       type: object
       description: Customer model

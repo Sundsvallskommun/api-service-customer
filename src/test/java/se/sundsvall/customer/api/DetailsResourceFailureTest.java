@@ -1,19 +1,5 @@
 package se.sundsvall.customer.api;
 
-import static java.lang.String.format;
-import static java.util.UUID.randomUUID;
-import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.groups.Tuple.tuple;
-import static org.codehaus.plexus.util.StringUtils.isNotBlank;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
-import static org.springframework.util.CollectionUtils.isEmpty;
-import static org.springframework.web.reactive.function.BodyInserters.fromValue;
-import static org.zalando.problem.Status.BAD_REQUEST;
-
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -30,6 +16,20 @@ import org.zalando.problem.violations.Violation;
 import se.sundsvall.customer.Application;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.service.CustomerService;
+
+import static java.lang.String.format;
+import static java.util.UUID.randomUUID;
+import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
+import static org.codehaus.plexus.util.StringUtils.isNotBlank;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
+import static org.springframework.util.CollectionUtils.isEmpty;
+import static org.springframework.web.reactive.function.BodyInserters.fromValue;
+import static org.zalando.problem.Status.BAD_REQUEST;
 
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")

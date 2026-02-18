@@ -1,10 +1,5 @@
 package se.sundsvall.customer.service.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static se.sundsvall.customer.api.model.CustomerType.ENTERPRISE;
-import static se.sundsvall.customer.api.model.CustomerType.PRIVATE;
-
 import generated.se.sundsvall.datawarehousereader.CustomerDetails;
 import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
@@ -18,6 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.zalando.problem.ThrowableProblem;
 import se.sundsvall.customer.api.model.CustomerRelation;
 import se.sundsvall.customer.api.model.CustomerType;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static se.sundsvall.customer.api.model.CustomerType.ENTERPRISE;
+import static se.sundsvall.customer.api.model.CustomerType.PRIVATE;
 
 class CustomerMapperTest {
 
