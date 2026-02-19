@@ -1,9 +1,5 @@
 package se.sundsvall.customer.service;
 
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
-import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomerDetailsResponse;
-
 import generated.se.sundsvall.datawarehousereader.Direction;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -12,6 +8,10 @@ import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.api.model.CustomerDetailsResponse;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomer;
+import static se.sundsvall.customer.service.mapper.CustomerMapper.toCustomerDetailsResponse;
 
 @Service
 public class CustomerService {

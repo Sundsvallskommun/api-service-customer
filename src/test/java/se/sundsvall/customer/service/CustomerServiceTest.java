@@ -1,13 +1,5 @@
 package se.sundsvall.customer.service;
 
-import static java.util.Collections.emptyList;
-import static java.util.UUID.randomUUID;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.sundsvall.customer.service.CustomerService.DATE_TIME_FORMAT;
-
 import generated.se.sundsvall.datawarehousereader.CustomerEngagement;
 import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
 import generated.se.sundsvall.datawarehousereader.Direction;
@@ -22,6 +14,14 @@ import org.springframework.data.domain.Sort;
 import org.zalando.problem.ThrowableProblem;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.integration.datawarehousereader.DataWarehouseReaderClient;
+
+import static java.util.Collections.emptyList;
+import static java.util.UUID.randomUUID;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.sundsvall.customer.service.CustomerService.DATE_TIME_FORMAT;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
