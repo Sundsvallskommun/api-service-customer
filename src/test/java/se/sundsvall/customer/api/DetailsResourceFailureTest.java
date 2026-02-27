@@ -7,15 +7,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.zalando.problem.Problem;
-import org.zalando.problem.violations.ConstraintViolationProblem;
-import org.zalando.problem.violations.Violation;
 import se.sundsvall.customer.Application;
 import se.sundsvall.customer.api.model.CustomerDetailsRequest;
 import se.sundsvall.customer.service.CustomerService;
+import se.sundsvall.dept44.problem.Problem;
+import se.sundsvall.dept44.problem.violations.ConstraintViolationProblem;
+import se.sundsvall.dept44.problem.violations.Violation;
 
 import static java.lang.String.format;
 import static java.util.UUID.randomUUID;
@@ -25,12 +26,13 @@ import static org.assertj.core.groups.Tuple.tuple;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
-import static org.zalando.problem.Status.BAD_REQUEST;
 
+@AutoConfigureWebTestClient
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @ActiveProfiles("junit")
 class DetailsResourceFailureTest {
@@ -67,8 +69,7 @@ class DetailsResourceFailureTest {
 		assertThat(response).isNotNull();
 		assertThat(response.getTitle()).isEqualTo("Bad Request");
 		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
-		assertThat(response.getDetail()).contains(
-			"JSON parse error: Cannot deserialize value of type `java.time.OffsetDateTime` from String \"not-valid\": Failed to deserialize java.time.OffsetDateTime: (java.time.format.DateTimeParseException) Text 'not-valid' could not be parsed at index 0");
+		assertThat(response.getDetail()).isEqualTo("Failed to read request");
 
 		// Verifications
 		verifyNoInteractions(customerServiceMock);
@@ -100,7 +101,7 @@ class DetailsResourceFailureTest {
 		assertThat(response.getTitle()).isEqualTo("Constraint Violation");
 		assertThat(response.getStatus()).isEqualTo(BAD_REQUEST);
 		assertThat(response.getViolations())
-			.extracting(Violation::getField, Violation::getMessage)
+			.extracting(Violation::field, Violation::message)
 			.containsExactly(tuple("getCustomerDetails.municipalityId", "not a valid municipality ID"));
 
 		// Verifications
@@ -136,19 +137,19 @@ class DetailsResourceFailureTest {
 			if (!isEmpty(request.getPartyId()) && isNotBlank(request.getCustomerEngagementOrgId())) {
 				// We have constraint violations on partyId
 				assertThat(constraintViolationProblem.getViolations())
-					.extracting(Violation::getField, Violation::getMessage)
+					.extracting(Violation::field, Violation::message)
 					.containsExactly(tuple("partyId[0]", "not a valid UUID"));
 			} else if (request.getCustomerEngagementOrgId() == null || request.getCustomerEngagementOrgId().isBlank()) {
 				// We have constraint violations when customerEngagementOrgId is missing
 				assertThat(constraintViolationProblem.getViolations())
-					.extracting(Violation::getField, Violation::getMessage)
+					.extracting(Violation::field, Violation::message)
 					.containsExactlyInAnyOrder(
 						tuple("customerEngagementOrgId", "must match the regular expression ^([1235789][\\d][2-9]\\d{7})$"),
 						tuple("customerEngagementOrgId", "must not be empty"));
 			} else {
 				// We have constraint violations on customerEngagementOrgId
 				assertThat(constraintViolationProblem.getViolations())
-					.extracting(Violation::getField, Violation::getMessage)
+					.extracting(Violation::field, Violation::message)
 					.containsExactly(tuple("customerEngagementOrgId", "must match the regular expression ^([1235789][\\d][2-9]\\d{7})$"));
 			}
 		}

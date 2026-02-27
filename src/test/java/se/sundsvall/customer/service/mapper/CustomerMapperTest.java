@@ -10,9 +10,9 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.zalando.problem.ThrowableProblem;
 import se.sundsvall.customer.api.model.CustomerRelation;
 import se.sundsvall.customer.api.model.CustomerType;
+import se.sundsvall.dept44.problem.ThrowableProblem;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
