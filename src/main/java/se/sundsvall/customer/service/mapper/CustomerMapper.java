@@ -5,18 +5,18 @@ import generated.se.sundsvall.datawarehousereader.CustomerEngagementResponse;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Sort;
-import org.zalando.problem.Problem;
 import se.sundsvall.customer.api.model.Customer;
 import se.sundsvall.customer.api.model.CustomerDetails;
 import se.sundsvall.customer.api.model.CustomerDetailsResponse;
 import se.sundsvall.customer.api.model.CustomerRelation;
 import se.sundsvall.customer.api.model.CustomerType;
 import se.sundsvall.dept44.models.api.paging.PagingAndSortingMetaData;
+import se.sundsvall.dept44.problem.Problem;
 
 import static com.nimbusds.oauth2.sdk.util.CollectionUtils.isEmpty;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
-import static org.zalando.problem.Status.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public class CustomerMapper {
 

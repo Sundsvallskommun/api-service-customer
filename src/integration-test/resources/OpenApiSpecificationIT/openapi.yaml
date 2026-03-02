@@ -1,36 +1,36 @@
 openapi: 3.1.0
 info:
   title: api-customer
-  contact: { }
+  contact: {}
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
   version: "4.0"
 servers:
-  - url: http://localhost:49290
-    description: Generated server url
+- url: http://localhost:52486
+  description: Generated server url
 tags:
-  - name: Details
-    description: Details operations
-  - name: Customer
-    description: Customer operations
-  - name: Relation
-    description: Relations operations
+- name: Details
+  description: Details operations
+- name: Customer
+  description: Customer operations
+- name: Relation
+  description: Relations operations
 paths:
   /{municipalityId}/details:
     post:
       tags:
-        - Details
+      - Details
       summary: Get customer by party-ID or organization id for customer engagements
       operationId: getCustomerDetails
       parameters:
-        - name: municipalityId
-          in: path
-          description: Municipality id
-          required: true
-          schema:
-            type: string
-          example: 2281
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       requestBody:
         content:
           application/json:
@@ -53,8 +53,8 @@ paths:
             application/problem+json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/Problem"
-                  - $ref: "#/components/schemas/ConstraintViolationProblem"
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
         "404":
           description: Not Found
           content:
@@ -76,24 +76,24 @@ paths:
   /{municipalityId}/relations/{partyId}:
     get:
       tags:
-        - Relation
+      - Relation
       summary: Get customer by party-ID
       operationId: getRelationByPartyId
       parameters:
-        - name: municipalityId
-          in: path
-          description: Municipality id
-          required: true
-          schema:
-            type: string
-          example: 2281
-        - name: partyId
-          in: path
-          description: Party-ID
-          required: true
-          schema:
-            type: string
-          example: 81471222-5798-11e9-ae24-57fa13b361e1
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
+      - name: partyId
+        in: path
+        description: Party-ID
+        required: true
+        schema:
+          type: string
+        example: 81471222-5798-11e9-ae24-57fa13b361e1
       responses:
         "200":
           description: Successful Operation
@@ -110,8 +110,8 @@ paths:
             application/problem+json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/Problem"
-                  - $ref: "#/components/schemas/ConstraintViolationProblem"
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
         "404":
           description: Not Found
           content:
@@ -133,24 +133,24 @@ paths:
   /{municipalityId}/customers/{partyId}:
     get:
       tags:
-        - Customer
+      - Customer
       summary: Get customer by party-ID
       operationId: getCustomerByPartyId
       parameters:
-        - name: municipalityId
-          in: path
-          description: Municipality id
-          required: true
-          schema:
-            type: string
-          example: 2281
-        - name: partyId
-          in: path
-          description: Party-ID
-          required: true
-          schema:
-            type: string
-          example: 81471222-5798-11e9-ae24-57fa13b361e1
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
+      - name: partyId
+        in: path
+        description: Party-ID
+        required: true
+        schema:
+          type: string
+        example: 81471222-5798-11e9-ae24-57fa13b361e1
       responses:
         "200":
           description: Successful Operation
@@ -167,8 +167,8 @@ paths:
             application/problem+json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/Problem"
-                  - $ref: "#/components/schemas/ConstraintViolationProblem"
+                - $ref: "#/components/schemas/Problem"
+                - $ref: "#/components/schemas/ConstraintViolationProblem"
         "404":
           description: Not Found
           content:
@@ -191,7 +191,7 @@ paths:
   /api-docs:
     get:
       tags:
-        - API
+      - API
       summary: OpenAPI
       operationId: getApiDocs
       responses:
@@ -209,8 +209,6 @@ components:
     Problem:
       type: object
       properties:
-        status:
-          $ref: "#/components/schemas/StatusType"
         title:
           type: string
         detail:
@@ -221,174 +219,48 @@ components:
         type:
           type: string
           format: uri
-        parameters:
-          type: object
-          additionalProperties: { }
-    StatusType:
-      type: object
-      properties:
-        statusCode:
+        status:
           type: integer
           format: int32
-        reasonPhrase:
-          type: string
     ConstraintViolationProblem:
       type: object
       properties:
-        cause:
-          $ref: "#/components/schemas/ThrowableProblem"
-        stackTrace:
-          type: array
-          items:
-            type: object
-            properties:
-              classLoaderName:
-                type: string
-              moduleName:
-                type: string
-              moduleVersion:
-                type: string
-              methodName:
-                type: string
-              fileName:
-                type: string
-              lineNumber:
-                type: integer
-                format: int32
-              className:
-                type: string
-              nativeMethod:
-                type: boolean
         type:
           type: string
           format: uri
         status:
-          $ref: "#/components/schemas/StatusType"
+          type: integer
+          format: int32
         violations:
           type: array
           items:
             $ref: "#/components/schemas/Violation"
         title:
           type: string
-        message:
-          type: string
+        causeAsProblem:
+          $ref: "#/components/schemas/ThrowableProblem"
         detail:
           type: string
         instance:
           type: string
           format: uri
-        parameters:
-          type: object
-          additionalProperties: { }
-        suppressed:
-          type: array
-          items:
-            type: object
-            properties:
-              stackTrace:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    classLoaderName:
-                      type: string
-                    moduleName:
-                      type: string
-                    moduleVersion:
-                      type: string
-                    methodName:
-                      type: string
-                    fileName:
-                      type: string
-                    lineNumber:
-                      type: integer
-                      format: int32
-                    className:
-                      type: string
-                    nativeMethod:
-                      type: boolean
-              message:
-                type: string
-              localizedMessage:
-                type: string
-        localizedMessage:
-          type: string
     ThrowableProblem:
       type: object
       properties:
-        cause: { }
-        stackTrace:
-          type: array
-          items:
-            type: object
-            properties:
-              classLoaderName:
-                type: string
-              moduleName:
-                type: string
-              moduleVersion:
-                type: string
-              methodName:
-                type: string
-              fileName:
-                type: string
-              lineNumber:
-                type: integer
-                format: int32
-              className:
-                type: string
-              nativeMethod:
-                type: boolean
-        message:
+        type:
           type: string
-        status:
-          $ref: "#/components/schemas/StatusType"
+          format: uri
         title:
           type: string
+        status:
+          type: integer
+          format: int32
         detail:
           type: string
         instance:
           type: string
           format: uri
-        type:
-          type: string
-          format: uri
-        parameters:
-          type: object
-          additionalProperties: { }
-        suppressed:
-          type: array
-          items:
-            type: object
-            properties:
-              stackTrace:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    classLoaderName:
-                      type: string
-                    moduleName:
-                      type: string
-                    moduleVersion:
-                      type: string
-                    methodName:
-                      type: string
-                    fileName:
-                      type: string
-                    lineNumber:
-                      type: integer
-                      format: int32
-                    className:
-                      type: string
-                    nativeMethod:
-                      type: boolean
-              message:
-                type: string
-              localizedMessage:
-                type: string
-        localizedMessage:
-          type: string
+        causeAsProblem: {}
     Violation:
       type: object
       properties:
@@ -406,7 +278,7 @@ components:
           default: 1
           description: Page number
           examples:
-            - "1"
+          - "1"
           minimum: 1
         limit:
           type: integer
@@ -414,7 +286,7 @@ components:
           description: Result size per page. Maximum allowed value is dynamically
             configured
           examples:
-            - "15"
+          - "15"
           minimum: 1
         sortBy:
           type: array
@@ -422,12 +294,12 @@ components:
             type: string
             description: The properties to sort on
             examples:
-              - propertyName
+            - propertyName
         sortDirection:
           $ref: "#/components/schemas/Direction"
           description: The sort order direction
           examples:
-            - ASC
+          - ASC
         partyId:
           type: array
           items:
@@ -436,21 +308,20 @@ components:
         customerEngagementOrgId:
           type: string
           description: Organization id for customer engagements
-          minLength: 1
         fromDateTime:
           type: string
           format: date-time
           description: Earliest date and time for when to search for change from.
             Format is yyyy-MM-dd'T'HH:mm:ss.SSSXXX
           examples:
-            - 2000-10-31T01:30:00.000-05:00
+          - 2000-10-31T01:30:00.000-05:00
       required:
-        - customerEngagementOrgId
+      - customerEngagementOrgId
     Direction:
       type: string
       enum:
-        - ASC
-        - DESC
+      - ASC
+      - DESC
     CustomerDetails:
       type: object
       description: Customer details model
@@ -460,55 +331,55 @@ components:
           description: Company with which the customer has an engagement (organization
             number)
           examples:
-            - "5591962591"
+          - "5591962591"
           readOnly: true
         customerEngagementOrgName:
           type: string
           description: Name of the company the customer has an engagement with
           examples:
-            - Sundsvall Elnät
+          - Sundsvall Elnät
           readOnly: true
         partyId:
           type: string
           description: PartyId (e.g. a personId or an organizationId)
           examples:
-            - 81471222-5798-11e9-ae24-57fa13b361e1
+          - 81471222-5798-11e9-ae24-57fa13b361e1
           readOnly: true
         customerNumber:
           type: string
           description: Customer number
           examples:
-            - "39195"
+          - "39195"
           readOnly: true
         customerName:
           type: string
           description: Customer name
           examples:
-            - Sven Svensson
+          - Sven Svensson
           readOnly: true
         street:
           type: string
           description: Street
           examples:
-            - Storgatan 44
+          - Storgatan 44
           readOnly: true
         postalCode:
           type: string
           description: Postal code
           examples:
-            - "85230"
+          - "85230"
           readOnly: true
         city:
           type: string
           description: City
           examples:
-            - Sundsvall
+          - Sundsvall
           readOnly: true
         careOf:
           type: string
           description: Care of address
           examples:
-            - Agatha Malm
+          - Agatha Malm
           readOnly: true
         phoneNumbers:
           type: array
@@ -516,51 +387,49 @@ components:
             type: string
             description: List of phoneNumbers
             examples:
-              - 076-1234567
+            - 076-1234567
             readOnly: true
-          readOnly: true
         emails:
           type: array
           items:
             type: string
             description: List of emailAddresses
             examples:
-              - test@test.se
+            - test@test.se
             readOnly: true
-          readOnly: true
         customerCategoryID:
           type: integer
           format: int32
           description: Customer category ID
           examples:
-            - "1"
+          - "1"
           readOnly: true
         customerCategoryDescription:
           type: string
           description: Customer category description
           examples:
-            - Privat
+          - Privat
           readOnly: true
         customerChangedFlg:
           type: boolean
           description: Indicates if customer details have changed since the search
             date
           examples:
-            - PRIVATE
+          - PRIVATE
           readOnly: true
         installedChangedFlg:
           type: boolean
           description: Indicates if placement and/or equipment details have changed
             since the search date
           examples:
-            - "true"
+          - "true"
           readOnly: true
         active:
           type: boolean
           description: "Indicates customer status, if not active then the moveInDate\
             \ holds information on when the customer will be activated"
           examples:
-            - "true"
+          - "true"
           readOnly: true
         moveInDate:
           type: string
@@ -576,7 +445,6 @@ components:
           items:
             $ref: "#/components/schemas/CustomerDetails"
             readOnly: true
-          readOnly: true
         _meta:
           $ref: "#/components/schemas/PagingAndSortingMetaData"
           readOnly: true
@@ -589,35 +457,35 @@ components:
           format: int32
           description: Current page
           examples:
-            - "5"
+          - "5"
           readOnly: true
         limit:
           type: integer
           format: int32
           description: Displayed objects per page
           examples:
-            - "20"
+          - "20"
           readOnly: true
         count:
           type: integer
           format: int32
           description: Displayed objects on current page
           examples:
-            - "13"
+          - "13"
           readOnly: true
         totalRecords:
           type: integer
           format: int64
           description: Total amount of hits based on provided search parameters
           examples:
-            - "98"
+          - "98"
           readOnly: true
         totalPages:
           type: integer
           format: int32
           description: Total amount of pages based on provided search parameters
           examples:
-            - "23"
+          - "23"
           readOnly: true
         sortBy:
           type: array
@@ -625,14 +493,13 @@ components:
             type: string
             description: The properties to sort by
             examples:
-              - property
+            - property
             readOnly: true
-          readOnly: true
         sortDirection:
           $ref: "#/components/schemas/Direction"
           description: The sort order direction
           examples:
-            - ASC
+          - ASC
     Customer:
       type: object
       description: Customer model
@@ -652,26 +519,26 @@ components:
           type: string
           description: Customer number
           examples:
-            - "10007"
+          - "10007"
           readOnly: true
         organizationNumber:
           type: string
           description: Organization number
           examples:
-            - "5565027223"
+          - "5565027223"
           readOnly: true
         organizationName:
           type: string
           description: Organization name
           examples:
-            - Sundsvall Elnät
+          - Sundsvall Elnät
           readOnly: true
         active:
           type: boolean
           description: "Indicates customer status, if not active then the moveInDate\
             \ holds information on when the customer will be activated"
           examples:
-            - "true"
+          - "true"
           readOnly: true
         moveInDate:
           type: string
@@ -682,6 +549,6 @@ components:
       type: string
       description: Customer type model
       enum:
-        - PRIVATE
-        - ENTERPRISE
-  securitySchemes: { }
+      - PRIVATE
+      - ENTERPRISE
+  securitySchemes: {}
