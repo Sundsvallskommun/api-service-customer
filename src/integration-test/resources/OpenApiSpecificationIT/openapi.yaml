@@ -7,7 +7,7 @@ info:
     url: https://opensource.org/licenses/MIT
   version: "4.0"
 servers:
-- url: http://localhost:52486
+- url: http://localhost:51998
   description: Generated server url
 tags:
 - name: Details
@@ -308,6 +308,7 @@ components:
         customerEngagementOrgId:
           type: string
           description: Organization id for customer engagements
+          minLength: 1
         fromDateTime:
           type: string
           format: date-time
