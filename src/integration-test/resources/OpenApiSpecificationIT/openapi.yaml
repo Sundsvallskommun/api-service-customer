@@ -7,7 +7,7 @@ info:
     url: https://opensource.org/licenses/MIT
   version: "4.0"
 servers:
-- url: http://localhost:51998
+- url: http://localhost:59762
   description: Generated server url
 tags:
 - name: Details
@@ -278,7 +278,7 @@ components:
           default: 1
           description: Page number
           examples:
-          - "1"
+          - 1
           minimum: 1
         limit:
           type: integer
@@ -286,7 +286,7 @@ components:
           description: Result size per page. Maximum allowed value is dynamically
             configured
           examples:
-          - "15"
+          - 15
           minimum: 1
         sortBy:
           type: array
@@ -403,7 +403,7 @@ components:
           format: int32
           description: Customer category ID
           examples:
-          - "1"
+          - 1
           readOnly: true
         customerCategoryDescription:
           type: string
@@ -458,35 +458,35 @@ components:
           format: int32
           description: Current page
           examples:
-          - "5"
+          - 5
           readOnly: true
         limit:
           type: integer
           format: int32
           description: Displayed objects per page
           examples:
-          - "20"
+          - 20
           readOnly: true
         count:
           type: integer
           format: int32
           description: Displayed objects on current page
           examples:
-          - "13"
+          - 13
           readOnly: true
         totalRecords:
           type: integer
           format: int64
           description: Total amount of hits based on provided search parameters
           examples:
-          - "98"
+          - 98
           readOnly: true
         totalPages:
           type: integer
           format: int32
           description: Total amount of pages based on provided search parameters
           examples:
-          - "23"
+          - 23
           readOnly: true
         sortBy:
           type: array
