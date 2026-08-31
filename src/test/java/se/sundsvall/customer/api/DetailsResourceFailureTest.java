@@ -23,13 +23,13 @@ import static java.util.UUID.randomUUID;
 import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
-import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
 import static org.springframework.util.CollectionUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasText;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @AutoConfigureWebTestClient
@@ -134,7 +134,7 @@ class DetailsResourceFailureTest {
 		if (response instanceof final ConstraintViolationProblem constraintViolationProblem) {
 			assertThat(constraintViolationProblem.getTitle()).isEqualTo("Constraint Violation");
 
-			if (!isEmpty(request.getPartyId()) && isNotBlank(request.getCustomerEngagementOrgId())) {
+			if (!isEmpty(request.getPartyId()) && hasText(request.getCustomerEngagementOrgId())) {
 				// We have constraint violations on partyId
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::field, Violation::message)
