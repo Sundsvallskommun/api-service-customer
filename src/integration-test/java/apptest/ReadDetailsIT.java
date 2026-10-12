@@ -1,14 +1,13 @@
 package apptest;
 
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpStatus.OK;
-
-import org.junit.jupiter.api.Test;
-
 import generated.se.sundsvall.datawarehousereader.CustomerDetailsResponse;
+import org.junit.jupiter.api.Test;
 import se.sundsvall.customer.Application;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
+
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpStatus.OK;
 
 @WireMockAppTestSuite(files = "classpath:/ReadDetails/", classes = Application.class)
 class ReadDetailsIT extends AbstractAppTest {

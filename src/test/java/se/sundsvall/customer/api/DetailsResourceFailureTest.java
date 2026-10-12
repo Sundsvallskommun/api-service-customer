@@ -144,13 +144,13 @@ class DetailsResourceFailureTest {
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::field, Violation::message)
 					.containsExactlyInAnyOrder(
-						tuple("customerEngagementOrgId", "must match the regular expression ^([1235789][\\d][2-9]\\d{7})$"),
+						tuple("customerEngagementOrgId", "must match the regular expression ^([1235-9][\\d][2-9]\\d{7})$"),
 						tuple("customerEngagementOrgId", "must not be empty"));
 			} else {
 				// We have constraint violations on customerEngagementOrgId
 				assertThat(constraintViolationProblem.getViolations())
 					.extracting(Violation::field, Violation::message)
-					.containsExactly(tuple("customerEngagementOrgId", "must match the regular expression ^([1235789][\\d][2-9]\\d{7})$"));
+					.containsExactly(tuple("customerEngagementOrgId", "must match the regular expression ^([1235-9][\\d][2-9]\\d{7})$"));
 			}
 		}
 
